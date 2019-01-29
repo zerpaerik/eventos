@@ -3,6 +3,30 @@
 
 @section('content')
     <h3 class="page-title">Listado de Clientes a Llamar</h3>
+
+    {!! Form::open(['method' => 'get', 'route' => ['admin.llamados.index1']]) !!}
+
+
+
+      <div class="row">
+     
+
+         <div class="col-md-4">
+             {!! Form::label('evento', 'Eventos*', ['class' => 'control-label']) !!}
+                    {!! Form::select('evento', $eventos, old('eventos'), ['class' => 'form-control select2']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('evento'))
+                        <p class="help-block">
+                            {{ $errors->first('evento') }}
+                        </p>
+                    @endif
+        </div>
+        <div class="col-md-4">
+            {!! Form::submit(trans('Buscar'), array('class' => 'btn btn-info')) !!}
+            {!! Form::close() !!}
+
+        </div>
+    </div>
   
 
     <div class="panel panel-default">

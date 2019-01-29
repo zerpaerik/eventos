@@ -35,21 +35,39 @@ class LlamadosController extends Controller
         return view('llamados.index', compact('llamados'));
     }
 
-      public function index1()
+      public function index1(Request $request)
     {
         if (! Gate::allows('users_manage')) {
             return abort(401);
         }
+
+            if(! is_null($request->evento)) {
 
 
          $clientes = DB::table('clientes as a')
         ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.usuario','a.evento','a.llamado','b.name','c.nombre as evento','a.llamado')
         ->join('users as b','b.id','a.usuario')
         ->join('eventos as c','c.id','a.evento')
+        ->where('a.evento','=',$request->evento)
         ->where('a.llamado','=',NULL)
         ->get();
 
-        return view('llamados.index1', compact('clientes'));
+    } else {
+
+          $clientes = DB::table('clientes as a')
+        ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.usuario','a.evento','a.llamado','b.name','c.nombre as evento','a.llamado')
+        ->join('users as b','b.id','a.usuario')
+        ->join('eventos as c','c.id','a.evento')
+        ->where('a.llamado','=',NULL)
+        ->get();
+
+
+    }
+
+            $eventos =Eventos::all()->pluck('nombre','id');
+
+
+        return view('llamados.index1', compact('clientes','eventos'));
     }
 
 
