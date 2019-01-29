@@ -18,11 +18,25 @@ class LlamadosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (! Gate::allows('users_manage')) {
             return abort(401);
         }
+
+                    if(! is_null($request->evento)) {
+
+
+
+         $llamados = DB::table('llamados as a')
+        ->select('a.id','a.id_cliente','a.id_evento','a.respuesta','a.observacion','a.usuario','b.name','c.nombre as nomcliente','c.apellido as apecliente','d.nombre as evento','a.created_at','c.telefono')
+        ->join('users as b','b.id','a.usuario')
+        ->join('clientes as c','c.id','a.id_cliente')
+        ->join('eventos as d','d.id','a.id_evento')
+         ->where('a.id_evento','=',$request->evento)
+        ->get();
+
+    } else {
 
 
          $llamados = DB::table('llamados as a')
@@ -32,7 +46,15 @@ class LlamadosController extends Controller
         ->join('eventos as d','d.id','a.id_evento')
         ->get();
 
-        return view('llamados.index', compact('llamados'));
+
+
+    }
+
+
+
+     $eventos =Eventos::all()->pluck('nombre','id');
+
+        return view('llamados.index', compact('llamados','eventos'));
     }
 
       public function index1(Request $request)

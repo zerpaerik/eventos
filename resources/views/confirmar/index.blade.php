@@ -10,6 +10,31 @@
             @lang('global.app_list')
         </div>
 
+
+        {!! Form::open(['method' => 'get', 'route' => ['admin.confirmar.index']]) !!}
+
+
+
+      <div class="row">
+     
+
+         <div class="col-md-4">
+             {!! Form::label('evento', 'Eventos*', ['class' => 'control-label']) !!}
+                    {!! Form::select('evento', $eventos, old('eventos'), ['class' => 'form-control select2']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('evento'))
+                        <p class="help-block">
+                            {{ $errors->first('evento') }}
+                        </p>
+                    @endif
+        </div>
+        <div class="col-md-4">
+            {!! Form::submit(trans('Buscar'), array('class' => 'btn btn-info')) !!}
+            {!! Form::close() !!}
+
+        </div>
+    </div>
+
         <div class="panel-body table-responsive">
             <table class="table table-bordered table-striped {{ count($confirmar) > 0 ? 'datatable' : '' }} dt-select">
                 <thead>
