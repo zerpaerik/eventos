@@ -33,6 +33,164 @@
                     </li>
                
                 </ul>
+
+                 <ul class="treeview-menu">
+
+                    <li class="{{ $request->segment(2) == 'eventos' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.eventos.index') }}">
+                            <i class="fa fa-briefcase"></i>
+                            <span class="title">
+                                Eventos
+                            </span>
+                        </a>
+                    </li>
+               
+                </ul>
+            </li>
+
+
+                <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-archive"></i>
+                    <span class="title"> Clientes Para Llamar</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+
+                    <li class="{{ $request->segment(2) == 'llamados' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.llamados.index') }}">
+                            <i class="fa fa-briefcase"></i>
+                            <span class="title">
+                                Listado
+                            </span>
+                        </a>
+                    </li>
+               
+                </ul>
+
+            </li>
+
+
+                <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-archive"></i>
+                    <span class="title"> Clientes Para Confirmar</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+
+                    <li class="{{ $request->segment(2) == 'confirmar' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.confirmar.index') }}">
+                            <i class="fa fa-briefcase"></i>
+                            <span class="title">
+                                Listado
+                            </span>
+                        </a>
+                    </li>
+               
+                </ul>
+
+            </li>
+
+
+                <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-archive"></i>
+                    <span class="title"> Clientes Confirmados</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+
+                    <li class="{{ $request->segment(2) == 'confirmar' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.confirmar.index1') }}">
+                            <i class="fa fa-briefcase"></i>
+                            <span class="title">
+                                Listado
+                            </span>
+                        </a>
+                    </li>
+               
+                </ul>
+
+            </li>
+
+
+                <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-archive"></i>
+                    <span class="title"> Registrar Pagos</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+
+                    <li class="{{ $request->segment(2) == 'pagos' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.pagos.index') }}">
+                            <i class="fa fa-briefcase"></i>
+                            <span class="title">
+                                Listado
+                            </span>
+                        </a>
+                    </li>
+               
+                </ul>
+
+            </li>
+
+              <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-archive"></i>
+                    <span class="title"> Reportes</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+
+                  <ul class="treeview-menu">
+
+                    <li class="{{ $request->segment(2) == 'pagos' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.pagos.index') }}">
+                            <i class="fa fa-briefcase"></i>
+                            <span class="title">
+                                Ingresos por Evento
+                            </span>
+                        </a>
+                    </li>
+               
+                </ul>
+                <ul class="treeview-menu">
+
+                    <li class="{{ $request->segment(2) == 'pagos' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.pagos.index') }}">
+                            <i class="fa fa-briefcase"></i>
+                            <span class="title">
+                                Listado de Asistentes
+                            </span>
+                        </a>
+                    </li>
+               
+                </ul>
+
+                  <ul class="treeview-menu">
+
+                    <li class="{{ $request->segment(2) == 'pagos' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.pagos.index') }}">
+                            <i class="fa fa-briefcase"></i>
+                            <span class="title">
+                                Listado de Pagos
+                            </span>
+                        </a>
+                    </li>
+               
+                </ul>
+
             </li>
          
             

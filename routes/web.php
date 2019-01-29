@@ -29,26 +29,26 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::resource('clientes', 'ClientesController');
     Route::post('clientes_mass_destroy', ['uses' => 'ClientesController@massDestroy', 'as' => 'clientes.mass_destroy']);
 
+    Route::resource('eventos', 'EventosController');
+    Route::post('eventos_mass_destroy', ['uses' => 'EventosController@massDestroy', 'as' => 'eventos.mass_destroy']);
+
+      Route::resource('llamados', 'LlamadosController');
+    Route::post('llamados_mass_destroy', ['uses' => 'LlamadosController@massDestroy', 'as' => 'llamados.mass_destroy']);
+
+
+    Route::resource('confirmar', 'ConfirmarController');
+    Route::post('confirmar_mass_destroy', ['uses' => 'ConfirmarController@massDestroy', 'as' => 'confirmar.mass_destroy']);
+
     Route::resource('empresas', 'Admin\EmpresasController');
     Route::post('empresas_mass_destroy', ['uses' => 'Archivos\EmpresasController@massDestroy', 'as' => 'empresas.mass_destroy']);
 
-     Route::resource('locales', 'Admin\LocalesController');
-    Route::post('localess_mass_destroy', ['uses' => 'Archivos\LocalesController@massDestroy', 'as' => 'localess.mass_destroy']);
+     Route::resource('pagos', 'PagosController');
+    Route::post('pagos_mass_destroy', ['uses' => 'PagosController@massDestroy', 'as' => 'pagos.mass_destroy']);
 
-    Route::resource('profesionales', 'Archivos\ProfesionalesController');
-    Route::post('profesionales_mass_destroy', ['uses' => 'Archivos\ProfesionalesController@massDestroy', 'as' => 'profesionales.mass_destroy']);
- 
 });
     
-    Route::get('/paciente/buscar/{dni}', 'Archivos\PacientesController@buscarPacientes');
-    Route::get('/existencias/atencion/servbyemp','Archivos\ServiciosController@servbyemp');
-    Route::get('/existencias/atencion/paqbyemp','Archivos\PaquetesController@paqbyemp');
-    Route::get('/existencias/atencion/perbyemp','Archivos\PersonalController@perbyemp');
-    Route::get('/existencias/atencion/probyemp','Archivos\ProfesionalesController@probyemp');
-    Route::get('/existencias/atencion/pagoadelantado','Existencias\AtencionController@pagoadelantado');
-    Route::get('/existencias/atencion/pagotarjeta','Existencias\AtencionController@pagotarjeta');
-    Route::get('/existencias/atencion/dataPacientes/{id}','Existencias\AtencionController@verDataPacientes');
-    Route::get('/existencias/atencion/dataServicios/{id}','Existencias\AtencionController@verDataServicios');
+    Route::get('/confirmar/index1','ConfirmarController@index1')->name('admin.confirmar.index1');
+
 
     Route::get('/users/locbyemp/{id}','Admin\UsersController@locbyemp');
     Route::get('/pacientes/distbypro/{id}','Archivos\PacientesController@distbypro');

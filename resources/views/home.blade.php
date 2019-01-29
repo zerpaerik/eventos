@@ -11,9 +11,9 @@
           <!-- small box -->
           <div class="small-box bg-aqua">
             <div class="inner">
-              <h3>150</h3>
+              <h3></h3>
 
-              <p>Atenciones del Dia</p>
+              <p>Eventos del Dia</p>
             </div>
             <div class="icon">
               <i class="ion ion-bag"></i>
@@ -26,9 +26,9 @@
           <!-- small box -->
           <div class="small-box bg-green">
             <div class="inner">
-              <h3>53<sup style="font-size: 20px">%</sup></h3>
+              <h3><sup style="font-size: 20px"></sup></h3>
 
-              <p>Pacientes del Dia</p>
+              <p>Ingresos del Dia</p>
             </div>
             <div class="icon">
               <i class="ion ion-stats-bars"></i>
@@ -41,7 +41,7 @@
           <!-- small box -->
           <div class="small-box bg-yellow">
             <div class="inner">
-              <h3>44</h3>
+              <h3></h3>
 
               <p>Reportes del Dia</p>
             </div>
@@ -56,7 +56,7 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3>65</h3>
+              <h3></h3>
 
               <p>Cumpleañeros del Dia</p>
             </div>
