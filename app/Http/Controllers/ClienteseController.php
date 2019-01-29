@@ -3,14 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Clientes;
-use App\Eventos;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 
 
-class ClientesController extends Controller
+class ClienteseController extends Controller
 {
     /**
      * Display a listing of User.
@@ -25,28 +24,12 @@ class ClientesController extends Controller
 
 
          $clientes = DB::table('clientes as a')
-        ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.usuario','a.evento','b.name','c.nombre as evento')
+        ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.usuario','a.evento','b.name')
         ->join('users as b','b.id','a.usuario')
         ->join('eventos as c','c.id','a.evento')
         ->get();
 
-        return view('clientes.index', compact('clientes'));
-    }
-
-       public function index1()
-    {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
-
-
-         $clientes = DB::table('clientes as a')
-        ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado')
-        ->join('users as b','b.id','a.usuario')
-        ->join('eventos as c','c.id','a.evento')
-        ->get();
-
-        return view('clientes.index1', compact('clientes'));
+        return view('clientese.index', compact('clientes'));
     }
 
     /**
@@ -60,11 +43,7 @@ class ClientesController extends Controller
             return abort(401);
         }
 
-        $eventos =Eventos::all()->pluck('nombre','id');
-
-    
-
-        return view('clientes.create',compact('eventos'));
+        return view('clientes.create');
     }
 
     /**
@@ -100,14 +79,13 @@ class ClientesController extends Controller
        $clientes->apellido     =$request->apellido;
        $clientes->telefono     =$request->telefono;
        $clientes->email= $request->email;
-       $clientes->evento= $request->evento;
        $clientes->usuario = Auth::id();
        $clientes->save();
 
        }   
 
 
-        return redirect()->route('admin.clientes.index1');
+        return redirect()->route('admin.clientes.index');
         return redirect()->back()->with("success", "EL CLIENTE FUE REGISTRADO EXITOSAMENTE");
 
     }
@@ -127,24 +105,7 @@ class ClientesController extends Controller
 
         $clientes = Clientes::findOrFail($id);
 
-                $eventos =Eventos::all()->pluck('nombre','id');
-
-
-        return view('clientes.edit', compact('clientes','eventos'));
-    }
-
-      public function llamar($id)
-    {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
-
-        $clientes = Clientes::findOrFail($id);
-
-                $eventos =Eventos::all()->pluck('nombre','id');
-
-
-        return view('clientes.llamar', compact('clientes','eventos'));
+        return view('clientes.edit', compact('clientes'));
     }
 
     /**
@@ -167,7 +128,7 @@ class ClientesController extends Controller
 
    
        
-        return redirect()->route('admin.clientes.index1');
+        return redirect()->route('admin.clientes.index');
     }
 
     /**
@@ -184,7 +145,7 @@ class ClientesController extends Controller
         $centros = Clientes::findOrFail($id);
         $centros->delete();
 
-        return redirect()->route('admin.clientes.index1');
+        return redirect()->route('admin.clientes.index');
     }
 
     /**

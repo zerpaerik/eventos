@@ -67,6 +67,20 @@
                     @endif
                 </div>
             </div>
+
+             <div class="col-md-4">
+                 <div class="col-xs-12 form-group">
+                    {!! Form::label('evento', 'Eventos*', ['class' => 'control-label']) !!}
+                    {!! Form::select('evento', $eventos, old('eventos'), ['class' => 'form-control select2']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('evento'))
+                        <p class="help-block">
+                            {{ $errors->first('evento') }}
+                        </p>
+                    @endif
+
+            </div>
+             </div>
               
 
           </div>

@@ -60,10 +60,35 @@
                 <ul class="treeview-menu">
 
                     <li class="{{ $request->segment(2) == 'llamados' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.clientes.index1') }}">
+                            <i class="fa fa-briefcase"></i>
+                            <span class="title">
+                                Listado de Clientes
+                            </span>
+                        </a>
+                    </li>
+               
+                </ul>
+
+                 <ul class="treeview-menu">
+
+                    <li class="{{ $request->segment(2) == 'llamados' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.llamados.index1') }}">
+                            <i class="fa fa-briefcase"></i>
+                            <span class="title">
+                                Listado a Llamar
+                            </span>
+                        </a>
+                    </li>
+               
+                </ul>
+                <ul class="treeview-menu">
+
+                    <li class="{{ $request->segment(2) == 'llamados' ? 'active active-sub' : '' }}">
                         <a href="{{ route('admin.llamados.index') }}">
                             <i class="fa fa-briefcase"></i>
                             <span class="title">
-                                Listado
+                                Clientes Llamados
                             </span>
                         </a>
                     </li>

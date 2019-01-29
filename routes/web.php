@@ -29,6 +29,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::resource('clientes', 'ClientesController');
     Route::post('clientes_mass_destroy', ['uses' => 'ClientesController@massDestroy', 'as' => 'clientes.mass_destroy']);
 
+     Route::resource('clientese', 'ClienteseController');
+    Route::post('clientese_mass_destroy', ['uses' => 'ClienteseController@massDestroy', 'as' => 'clientese.mass_destroy']);
+
     Route::resource('eventos', 'EventosController');
     Route::post('eventos_mass_destroy', ['uses' => 'EventosController@massDestroy', 'as' => 'eventos.mass_destroy']);
 
@@ -46,7 +49,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::post('pagos_mass_destroy', ['uses' => 'PagosController@massDestroy', 'as' => 'pagos.mass_destroy']);
 
 });
-    
+    Route::get('/clientes/index1','ClientesController@index1')->name('admin.clientes.index1');
+    Route::get('/clientes-llamar-{id}','ClientesController@llamar');
+
+    Route::get('/llamados/index1','LlamadosController@index1')->name('admin.llamados.index1');
     Route::get('/confirmar/index1','ConfirmarController@index1')->name('admin.confirmar.index1');
 
 

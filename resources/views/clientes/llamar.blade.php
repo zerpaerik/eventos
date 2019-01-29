@@ -1,9 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">Modificar Cliente</h3>
+    <h3 class="page-title">Llamada a Cliente</h3>
     
-    {!! Form::model($clientes, ['method' => 'PUT', 'route' => ['admin.clientes.update', $clientes->id]]) !!}
+    {!! Form::model($clientes, ['method' => 'PUT', 'route' => ['admin.llamados.update', $clientes->id]]) !!}
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -15,7 +15,7 @@
                 <div class="col-md-4">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('nombre', 'Nombres*', ['class' => 'control-label']) !!}
-                    {!! Form::text('nombre', old('nombre'), ['class' => 'form-control', 'placeholder' => 'Nombres', 'required' => '']) !!}
+                    {!! Form::text('nombre', old('nombre'), ['class' => 'form-control', 'placeholder' => 'Nombres', 'required' => '','disabled' => 'true']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('nombre'))
                         <p class="help-block">
@@ -27,7 +27,7 @@
                 <div class="col-md-4">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('apellido', 'Apellidos', ['class' => 'control-label']) !!}
-                    {!! Form::text('apellido', old('apellido'), ['class' => 'form-control', 'placeholder' => ' Apellidos', 'required' => 'false']) !!}
+                    {!! Form::text('apellido', old('apellido'), ['class' => 'form-control', 'placeholder' => ' Apellidos', 'required' => 'false','disabled' => 'true']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('apellido'))
                         <p class="help-block">
@@ -40,7 +40,7 @@
              <div class="col-md-4">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('email', 'Email', ['class' => 'control-label']) !!}
-                    {!! Form::email('email', old('email'), ['class' => 'form-control', 'placeholder' => 'E-mail', 'required' => 'false']) !!}
+                    {!! Form::email('email', old('email'), ['class' => 'form-control', 'placeholder' => 'E-mail', 'required' => 'false','disabled' => 'true']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('email'))
                         <p class="help-block">
@@ -57,7 +57,7 @@
               <div class="col-md-4">
                 <div class="col-xs-12 form-group">
                     {!! Form::label('telefono', 'Telèfono', ['class' => 'control-label']) !!}
-                    {!! Form::text('telefono', old('telefono'), ['class' => 'form-control', 'placeholder' => 'Telèfono', 'required' => 'false']) !!}
+                    {!! Form::text('telefono', old('telefono'), ['class' => 'form-control', 'placeholder' => 'Telèfono', 'required' => 'false','disabled' => 'true']) !!}
                     <p class="help-block"></p>
                     @if($errors->has('telefono'))
                         <p class="help-block">
@@ -67,19 +67,36 @@
                 </div>
             </div>
 
-              <div class="col-md-4">
-                 <div class="col-xs-12 form-group">
-                    {!! Form::label('evento', 'Eventos*', ['class' => 'control-label']) !!}
-                    {!! Form::select('evento', $eventos, old('eventos'), ['class' => 'form-control select2']) !!}
-                    <p class="help-block"></p>
-                    @if($errors->has('evento'))
-                        <p class="help-block">
-                            {{ $errors->first('evento') }}
-                        </p>
-                    @endif
+             <div class="col-md-4">
+              <div class="col-xs-12 form-group">
+                 {!! Form::label("respuesta","*Respuesta",["class"=>""]) !!}
+			          <div class="input-icon">
+			            <div class="input-icon">
+			              <i class="icon-eye  font-red"></i>
+
+			              {!! Form::select('respuesta', ['0' => 'Seleccione una Opciòn','Asiste' => 'Asiste', 'No Asiste' => 'No Asiste','SMS' => 'SMS','Por Confirmar' => 'Por Confirmar','Equivocado' => 'Equivocado'], null, ['id'=>'respuesta', 'class'=>'form-control select2']) !!}
+			            </div>
+
+			          </div>
+            </div>
 
             </div>
-             </div>
+
+
+             <div class="col-md-4">
+                <div class="col-xs-12 form-group">
+                    {!! Form::label('observacion', 'Observacion', ['class' => 'control-label']) !!}
+                    {!! Form::text('observacion', old('observacion'), ['class' => 'form-control', 'placeholder' => 'Observaciòn', 'required' => 'false']) !!}
+                    <p class="help-block"></p>
+                    @if($errors->has('observacion'))
+                        <p class="help-block">
+                            {{ $errors->first('observacion') }}
+                        </p>
+                    @endif
+                </div>
+            </div>
+
+            
               
 
           </div>

@@ -2,7 +2,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">Clientes</h3>
+    <h3 class="page-title">Listado de Clientes a Llamar</h3>
   
 
     <div class="panel panel-default">
@@ -41,7 +41,8 @@
                                 <td>{{ $ctr->name }}</td>
 
                                 <td>
-                                  
+                                    <a href="/clientes-llamar-{{$ctr->id}}" class="btn btn-xs btn-info">Llamar</a>
+                                    
                                 </td>
 
                             </tr>
@@ -56,3 +57,5 @@
         </div>
     </div>
 @stop
+
+

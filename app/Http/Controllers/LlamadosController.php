@@ -35,6 +35,24 @@ class LlamadosController extends Controller
         return view('llamados.index', compact('llamados'));
     }
 
+      public function index1()
+    {
+        if (! Gate::allows('users_manage')) {
+            return abort(401);
+        }
+
+
+         $clientes = DB::table('clientes as a')
+        ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.usuario','a.evento','a.llamado','b.name','c.nombre as evento','a.llamado')
+        ->join('users as b','b.id','a.usuario')
+        ->join('eventos as c','c.id','a.evento')
+        ->where('a.llamado','=',NULL)
+        ->get();
+
+        return view('llamados.index1', compact('clientes'));
+    }
+
+
     /**
      * Show the form for creating new User.
      *
@@ -62,13 +80,22 @@ class LlamadosController extends Controller
      * @param  \App\Http\Requests\StoreUsersRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
         if (! Gate::allows('users_manage')) {
             return abort(401);
         }
 
          $id_usuario = Auth::id();
+
+
+         dd($id);
+         die();
+
+             $serachcliente = DB::table('clientes')
+                    ->select('*')
+                    ->where('id','=', $id)
+                    ->first();   
 
         
 
@@ -123,13 +150,30 @@ class LlamadosController extends Controller
         if (! Gate::allows('users_manage')) {
             return abort(401);
         }
+        
+
+       
+             $serachcliente = DB::table('clientes')
+                    ->select('*')
+                    ->where('id','=', $id)
+                    ->first();  
+
+              $evento= $serachcliente->evento;
+              
+        $cliente = Clientes::findOrFail($id);
+        $cliente->llamado= 'SI';
+        $cliente->update();
 
 
+       $llamados = new Llamados;
+       $llamados->id_cliente =$id;
+       $llamados->id_evento     =$evento;
+       $llamados->respuesta     =$request->respuesta;
+       $llamados->observacion     =$request->observacion;
+       $llamados->estatus     ='No Confirmado';
+       $llamados->usuario = Auth::id();
+       $llamados->save();           
 
-        $llamados = Llamados::findOrFail($id);
-        $llamados->update($request->all());
-
-   
        
         return redirect()->route('admin.llamados.index');
     }

@@ -3,9 +3,7 @@
 
 @section('content')
     <h3 class="page-title">Clientes Llamados</h3>
-    <p>
-        <a href="{{ route('admin.llamados.create') }}" class="btn btn-success" style="background: #DF01A5;">Registrar Llamada</a>
-    </p>
+  
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -45,14 +43,8 @@
                                 <td>{{ $ctr->name }}</td>
 
                                 <td>
-                                    <a href="{{ route('admin.llamados.edit',[$ctr->id]) }}" class="btn btn-xs btn-info">@lang('global.app_edit')</a>
-                                    {!! Form::open(array(
-                                        'style' => 'display: inline-block;',
-                                        'method' => 'DELETE',
-                                        'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
-                                        'route' => ['admin.llamados.destroy', $ctr->id])) !!}
-                                    {!! Form::submit(trans('global.app_delete'), array('class' => 'btn btn-xs btn-danger')) !!}
-                                    {!! Form::close() !!}
+                                   
+                                  
                                 </td>
 
                             </tr>
@@ -68,8 +60,3 @@
     </div>
 @stop
 
-@section('javascript') 
-    <script>
-        window.route_mass_crud_entries_destroy = '{{ route('admin.clientes.mass_destroy') }}';
-    </script>
-@endsection
