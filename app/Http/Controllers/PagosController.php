@@ -20,9 +20,7 @@ class PagosController extends Controller
      */
     public function index(Request $request)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+      
 
 
             if((! is_null($request->evento)) && (! is_null($request->fecha)) && (! is_null($request->fecha2)) ) {
@@ -88,9 +86,7 @@ class PagosController extends Controller
      */
     public function create()
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+        
 
          $clientes   = Clientes::select(
              DB::raw("CONCAT(apellido,' ',nombre,' Telef:',telefono) AS descripcion"),'id')                  
@@ -109,9 +105,7 @@ class PagosController extends Controller
      */
     public function store(Request $request)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+       
 
          $id_usuario = Auth::id();
 
@@ -146,9 +140,7 @@ class PagosController extends Controller
      */
     public function edit($id)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+        
 
         $pagos = Pagos::findOrFail($id);
         $clientes   = Clientes::select(
@@ -170,10 +162,7 @@ class PagosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
-
+        
 
 
         $pagos = Pagos::findOrFail($id);
@@ -192,9 +181,7 @@ class PagosController extends Controller
      */
     public function destroy($id)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+       
         $pagos = Pagos::findOrFail($id);
         $pagos->delete();
 
@@ -208,9 +195,7 @@ class PagosController extends Controller
      */
     public function massDestroy(Request $request)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+       
         if ($request->input('ids')) {
             $entries = Pagos::whereIn('id', $request->input('ids'))->get();
 

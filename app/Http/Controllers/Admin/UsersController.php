@@ -50,9 +50,8 @@ class UsersController extends Controller
     {
        
         $roles = Role::get()->pluck('name', 'name');
-        $empresas = Empresas::get()->pluck('nombre', 'id');
 
-        return view('admin.users.create', compact('roles','empresas'));
+        return view('admin.users.create', compact('roles'));
     }
 
     public function dataUser() {
@@ -78,26 +77,14 @@ class UsersController extends Controller
      */
     public function store(Request $request)
     {
-        $empresas = DB::table('empresas as a')
-        ->select('*')
-        ->where('a.id','=',$request->empresas)
-        ->get()->pluck('nombre'); 
-
-        $locales = DB::table('locales as a')
-        ->select('*')
-        ->where('a.id','=',$request->locales)
-        ->get()->pluck('nombres'); 
+       
 
 
        $user = new User;
        $user->name =$request->name;
        $user->email     =$request->email;
        $user->password     =$request->password;
-       $user->id_empresa     =$request->empresas;
-       $user->id_sucursal     =$request->locales;
-       $user->rol     =$request->rol;
-       $user->empresa     =$empresas;
-       $user->sucursal     =$locales;
+     
        $user->save();
 
 

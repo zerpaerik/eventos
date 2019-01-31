@@ -21,9 +21,7 @@ class AsistenciaController extends Controller
      */
     public function index(Request $request)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+        
 
        if((! is_null($request->evento)) && (! is_null($request->fecha)) && (! is_null($request->fecha2)) ) {
 
@@ -81,9 +79,7 @@ class AsistenciaController extends Controller
 
       public function index1(Request $request)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+       
 
 
        if((! is_null($request->evento)) && (! is_null($request->fecha)) && (! is_null($request->fecha2)) ) {
@@ -158,9 +154,7 @@ class AsistenciaController extends Controller
      */
     public function create()
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+       
 
          $confirmados = DB::table('llamados as a')
         ->select('a.id','a.id_cliente','a.id_evento','a.respuesta','a.observacion','a.usuario','b.name','c.nombre as nomcliente','c.apellido as apecliente','d.nombre as evento','a.created_at','d.fecha','c.telefono','a.estatus')
@@ -190,10 +184,7 @@ class AsistenciaController extends Controller
      */
     public function store(Request $request)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
-
+      
 
        
 
@@ -220,9 +211,7 @@ class AsistenciaController extends Controller
      */
     public function edit($id)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+        
 
         $asistencia = Asistencia::findOrFail($id);
 
@@ -248,12 +237,7 @@ class AsistenciaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
-
-
-
+        
      
    
        
@@ -268,10 +252,7 @@ class AsistenciaController extends Controller
      */
     public function destroy($id)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
-
+        
         
              $serachdata = DB::table('llamados')
                     ->select('*')
@@ -303,9 +284,7 @@ class AsistenciaController extends Controller
      */
     public function massDestroy(Request $request)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+        
         if ($request->input('ids')) {
             $entries = Asistencia::whereIn('id', $request->input('ids'))->get();
 

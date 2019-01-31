@@ -18,10 +18,7 @@ class EventosController extends Controller
      */
     public function index()
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
-
+        
 
          $eventos = DB::table('eventos as a')
         ->select('a.id','a.nombre','a.responsable','a.fecha','a.descripcion','a.capacidad','a.usuario','b.name')
@@ -38,9 +35,7 @@ class EventosController extends Controller
      */
     public function create()
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+       
 
         return view('eventos.create');
     }
@@ -53,9 +48,7 @@ class EventosController extends Controller
      */
     public function store(Request $request)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+        
 
          $id_usuario = Auth::id();
 
@@ -90,9 +83,7 @@ class EventosController extends Controller
      */
     public function edit($id)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+        
 
         $eventos = Eventos::findOrFail($id);
 
@@ -108,10 +99,7 @@ class EventosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
-
+        
 
 
         $eventos = Eventos::findOrFail($id);
@@ -130,9 +118,7 @@ class EventosController extends Controller
      */
     public function destroy($id)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+       
         $eventos = Eventos::findOrFail($id);
         $eventos->delete();
 
@@ -146,9 +132,7 @@ class EventosController extends Controller
      */
     public function massDestroy(Request $request)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+        
         if ($request->input('ids')) {
             $entries = Eventos::whereIn('id', $request->input('ids'))->get();
 

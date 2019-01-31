@@ -19,9 +19,7 @@ class ClientesController extends Controller
      */
     public function index()
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+        
 
 
          $clientes = DB::table('clientes as a')
@@ -37,9 +35,7 @@ class ClientesController extends Controller
 
        public function index1(Request $request)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+       
 
 
     if((! is_null($request->evento)) && (! is_null($request->fecha)) && (! is_null($request->fecha2)) ) {
@@ -101,9 +97,7 @@ class ClientesController extends Controller
      */
     public function create()
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+        
 
         $eventos =Eventos::all()->pluck('nombre','id');
 
@@ -120,9 +114,7 @@ class ClientesController extends Controller
      */
     public function store(Request $request)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+       
 
          $id_usuario = Auth::id();
 
@@ -166,9 +158,7 @@ class ClientesController extends Controller
      */
     public function edit($id)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+        
 
         $clientes = Clientes::findOrFail($id);
 
@@ -180,9 +170,7 @@ class ClientesController extends Controller
 
       public function llamar($id)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+       
 
         $clientes = Clientes::findOrFail($id);
 
@@ -201,10 +189,7 @@ class ClientesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
-
+       
 
 
         $centros = Clientes::findOrFail($id);
@@ -223,9 +208,7 @@ class ClientesController extends Controller
      */
     public function destroy($id)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+       
         $centros = Clientes::findOrFail($id);
         $centros->delete();
 
@@ -239,9 +222,7 @@ class ClientesController extends Controller
      */
     public function massDestroy(Request $request)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+        
         if ($request->input('ids')) {
             $entries = Clientes::whereIn('id', $request->input('ids'))->get();
 

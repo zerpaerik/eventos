@@ -21,10 +21,7 @@ class ReportesController extends Controller
      */
     public function llamadas(Request $request)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
-
+        
 
 
 
@@ -79,9 +76,7 @@ class ReportesController extends Controller
 
         public function ingresos(Request $request)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+       
 
          if($request->mes == '01'){
        	$mes='Enero';
@@ -136,9 +131,7 @@ class ReportesController extends Controller
 
          public function asistentes(Request $request)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+       
 
 
        if($request->mes == '01'){

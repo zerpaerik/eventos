@@ -20,9 +20,7 @@ class ConfirmarController extends Controller
      */
     public function index(Request $request)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+       
 
   if((! is_null($request->evento)) && (! is_null($request->fecha)) && (! is_null($request->fecha2)) ) {
 
@@ -89,9 +87,7 @@ class ConfirmarController extends Controller
 
      public function index1(Request $request)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+       
 
        if((! is_null($request->evento)) && (! is_null($request->fecha)) && (! is_null($request->fecha2)) ) {
 
@@ -165,9 +161,7 @@ class ConfirmarController extends Controller
      */
     public function create()
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+       
 
 
     $clientes   = Clientes::select(
@@ -187,10 +181,7 @@ class ConfirmarController extends Controller
      */
     public function store(Request $request)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
-
+       
          $id_usuario = Auth::id();
 
         
@@ -218,10 +209,7 @@ class ConfirmarController extends Controller
      */
     public function edit($id)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
-
+      
         $llamados = Llamados::findOrFail($id);
        $clientes   = Clientes::select(
              DB::raw("CONCAT(apellido,' ',nombre) AS descripcion"),'id')                  
@@ -242,10 +230,7 @@ class ConfirmarController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
-
+      
 
 
         $llamados = Llamados::findOrFail($id);
@@ -264,9 +249,7 @@ class ConfirmarController extends Controller
      */
     public function destroy($id)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+       
         $llamados = Llamados::findOrFail($id);
         $llamados->estatus= 'Confirmado';
         $llamados->update();
@@ -281,9 +264,7 @@ class ConfirmarController extends Controller
      */
     public function massDestroy(Request $request)
     {
-        if (! Gate::allows('users_manage')) {
-            return abort(401);
-        }
+       
         if ($request->input('ids')) {
             $entries = Llamados::whereIn('id', $request->input('ids'))->get();
 
