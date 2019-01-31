@@ -24,7 +24,7 @@ class LlamadosController extends Controller
             return abort(401);
         }
 
-                    if(! is_null($request->evento)) {
+       if((! is_null($request->evento)) && (! is_null($request->fecha)) && (! is_null($request->fecha2)) ) {
 
 
 
@@ -34,9 +34,10 @@ class LlamadosController extends Controller
         ->join('clientes as c','c.id','a.id_cliente')
         ->join('eventos as d','d.id','a.id_evento')
          ->where('a.id_evento','=',$request->evento)
+                 ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
         ->get();
 
-    } else {
+    } else if((! is_null($request->fecha)) && (! is_null($request->fecha2))) {
 
 
          $llamados = DB::table('llamados as a')
@@ -44,8 +45,29 @@ class LlamadosController extends Controller
         ->join('users as b','b.id','a.usuario')
         ->join('clientes as c','c.id','a.id_cliente')
         ->join('eventos as d','d.id','a.id_evento')
+        ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
         ->get();
 
+
+
+    } elseif (! is_null($request->evento)) {
+
+          $llamados = DB::table('llamados as a')
+        ->select('a.id','a.id_cliente','a.id_evento','a.respuesta','a.observacion','a.usuario','b.name','c.nombre as nomcliente','c.apellido as apecliente','d.nombre as evento','a.created_at','c.telefono')
+        ->join('users as b','b.id','a.usuario')
+        ->join('clientes as c','c.id','a.id_cliente')
+        ->join('eventos as d','d.id','a.id_evento')
+         ->where('a.id_evento','=',$request->evento)
+        ->get();
+
+    } else {
+
+        $llamados = DB::table('llamados as a')
+        ->select('a.id','a.id_cliente','a.id_evento','a.respuesta','a.observacion','a.usuario','b.name','c.nombre as nomcliente','c.apellido as apecliente','d.nombre as evento','a.created_at','c.telefono')
+        ->join('users as b','b.id','a.usuario')
+        ->join('clientes as c','c.id','a.id_cliente')
+        ->join('eventos as d','d.id','a.id_evento')
+        ->get();
 
 
     }
@@ -63,11 +85,34 @@ class LlamadosController extends Controller
             return abort(401);
         }
 
-            if(! is_null($request->evento)) {
+       if((! is_null($request->evento)) && (! is_null($request->fecha)) && (! is_null($request->fecha2)) ) {
 
 
          $clientes = DB::table('clientes as a')
+        ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.usuario','a.evento','a.llamado','b.name','c.nombre as evento','a.llamado','a.created_at')
+        ->join('users as b','b.id','a.usuario')
+        ->join('eventos as c','c.id','a.evento')
+        ->where('a.evento','=',$request->evento)
+                         ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
+        ->where('a.llamado','=',NULL)
+        ->get();
+
+    } else if((! is_null($request->fecha)) && (! is_null($request->fecha2))) {
+
+          $clientes = DB::table('clientes as a')
         ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.usuario','a.evento','a.llamado','b.name','c.nombre as evento','a.llamado')
+        ->join('users as b','b.id','a.usuario')
+        ->join('eventos as c','c.id','a.evento')
+        ->where('a.llamado','=',NULL)
+                                 ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
+        ->get();
+
+
+        } elseif (! is_null($request->evento)) {
+
+
+         $clientes = DB::table('clientes as a')
+        ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.usuario','a.evento','a.llamado','b.name','c.nombre as evento','a.llamado','a.created_at')
         ->join('users as b','b.id','a.usuario')
         ->join('eventos as c','c.id','a.evento')
         ->where('a.evento','=',$request->evento)
@@ -76,15 +121,17 @@ class LlamadosController extends Controller
 
     } else {
 
-          $clientes = DB::table('clientes as a')
-        ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.usuario','a.evento','a.llamado','b.name','c.nombre as evento','a.llamado')
+         $clientes = DB::table('clientes as a')
+        ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.usuario','a.evento','a.llamado','b.name','c.nombre as evento','a.llamado','a.created_at')
         ->join('users as b','b.id','a.usuario')
         ->join('eventos as c','c.id','a.evento')
         ->where('a.llamado','=',NULL)
         ->get();
 
 
+
     }
+
 
             $eventos =Eventos::all()->pluck('nombre','id');
 

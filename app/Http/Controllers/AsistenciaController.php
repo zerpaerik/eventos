@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Eventos;
-use App\Llamados;
 use App\Clientes;
+use App\Eventos;
+use App\Asistencia;
+use App\Llamados;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 
 
-class ConfirmarController extends Controller
+class AsistenciaController extends Controller
 {
     /**
      * Display a listing of User.
@@ -24,97 +25,68 @@ class ConfirmarController extends Controller
             return abort(401);
         }
 
-  if((! is_null($request->evento)) && (! is_null($request->fecha)) && (! is_null($request->fecha2)) ) {
+       if((! is_null($request->evento)) && (! is_null($request->fecha)) && (! is_null($request->fecha2)) ) {
 
-
-         $confirmar = DB::table('llamados as a')
-        ->select('a.id','a.id_cliente','a.id_evento','a.respuesta','a.observacion','a.usuario','b.name','c.nombre as nomcliente','c.apellido as apecliente','d.nombre as evento','a.created_at','d.fecha','c.telefono','a.estatus')
+         $asistencia = DB::table('asistencias as a')
+        ->select('a.id','a.usuario','a.id_evento','a.id_cliente','b.name','c.nombre as evento','d.nombre as cliente','a.created_at')
         ->join('users as b','b.id','a.usuario')
-        ->join('clientes as c','c.id','a.id_cliente')
-        ->join('eventos as d','d.id','a.id_evento')
-        ->where('a.respuesta','=','Asiste')
-        ->where('d.fecha','<',date('Y-m-d'))
-        ->where('a.estatus','<>','Confirmado')
-        ->whereNotIn('a.estatus',['Asiste'])
+        ->join('eventos as c','c.id','a.id_evento')
+        ->join('clientes as d','d.id','a.id_cliente')
         ->where('a.id_evento','=',$request->evento)
-                ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
+        ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
         ->get();
 
     } else if((! is_null($request->fecha)) && (! is_null($request->fecha2))) {
 
-        $confirmar = DB::table('llamados as a')
-        ->select('a.id','a.id_cliente','a.id_evento','a.respuesta','a.observacion','a.usuario','b.name','c.nombre as nomcliente','c.apellido as apecliente','d.nombre as evento','a.created_at','d.fecha','c.telefono','a.estatus')
+
+
+         $asistencia = DB::table('asistencias as a')
+        ->select('a.id','a.usuario','a.id_evento','a.id_cliente','b.name','c.nombre as evento','d.nombre as cliente','a.created_at')
         ->join('users as b','b.id','a.usuario')
-        ->join('clientes as c','c.id','a.id_cliente')
-        ->join('eventos as d','d.id','a.id_evento')
-        ->where('a.respuesta','=','Asiste')
-        ->where('d.fecha','<',date('Y-m-d'))
-        ->where('a.estatus','<>','Confirmado')
-                ->whereNotIn('a.estatus',['Asiste'])
-         ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
+        ->join('eventos as c','c.id','a.id_evento')
+        ->join('clientes as d','d.id','a.id_cliente')
+        ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
         ->get();
 
 
+    } else if (! is_null($request->evento)){
 
-    } elseif (! is_null($request->evento)) {
 
-
-         $confirmar = DB::table('llamados as a')
-        ->select('a.id','a.id_cliente','a.id_evento','a.respuesta','a.observacion','a.usuario','b.name','c.nombre as nomcliente','c.apellido as apecliente','d.nombre as evento','a.created_at','d.fecha','c.telefono','a.estatus')
+         $asistencia = DB::table('asistencias as a')
+        ->select('a.id','a.usuario','a.id_evento','a.id_cliente','b.name','c.nombre as evento','d.nombre as cliente','a.created_at')
         ->join('users as b','b.id','a.usuario')
-        ->join('clientes as c','c.id','a.id_cliente')
-        ->join('eventos as d','d.id','a.id_evento')
-        ->where('a.respuesta','=','Asiste')
-        ->where('d.fecha','<',date('Y-m-d'))
-        ->where('a.estatus','<>','Confirmado')
-                ->whereNotIn('a.estatus',['Asiste'])
+        ->join('eventos as c','c.id','a.id_evento')
+        ->join('clientes as d','d.id','a.id_cliente')
         ->where('a.id_evento','=',$request->evento)
         ->get();
-    } else {
 
-         $confirmar = DB::table('llamados as a')
-        ->select('a.id','a.id_cliente','a.id_evento','a.respuesta','a.observacion','a.usuario','b.name','c.nombre as nomcliente','c.apellido as apecliente','d.nombre as evento','a.created_at','d.fecha','c.telefono','a.estatus')
+    }else {
+
+    	  $asistencia = DB::table('asistencias as a')
+        ->select('a.id','a.usuario','a.id_evento','a.id_cliente','b.name','c.nombre as evento','d.nombre as cliente','a.created_at')
         ->join('users as b','b.id','a.usuario')
-        ->join('clientes as c','c.id','a.id_cliente')
-        ->join('eventos as d','d.id','a.id_evento')
-        ->where('a.respuesta','=','Asiste')
-        ->where('d.fecha','<',date('Y-m-d'))
-        ->where('a.estatus','<>','Confirmado')
-                ->whereNotIn('a.estatus',['Asiste'])
+        ->join('eventos as c','c.id','a.id_evento')
+        ->join('clientes as d','d.id','a.id_cliente')
         ->get();
 
-
-
     }
 
-           $eventos =Eventos::all()->pluck('nombre','id');
 
 
-        return view('confirmar.index', compact('confirmar','eventos'));
+                        $eventos =Eventos::all()->pluck('nombre','id');
+
+
+        return view('asistencia.index', compact('asistencia','eventos'));
     }
 
-     public function index1(Request $request)
+      public function index1(Request $request)
     {
         if (! Gate::allows('users_manage')) {
             return abort(401);
         }
 
+
        if((! is_null($request->evento)) && (! is_null($request->fecha)) && (! is_null($request->fecha2)) ) {
-
-
-         $confirmar = DB::table('llamados as a')
-        ->select('a.id','a.id_cliente','a.id_evento','a.respuesta','a.observacion','a.usuario','b.name','c.nombre as nomcliente','c.apellido as apecliente','d.nombre as evento','a.created_at','d.fecha','c.telefono','a.estatus')
-        ->join('users as b','b.id','a.usuario')
-        ->join('clientes as c','c.id','a.id_cliente')
-        ->join('eventos as d','d.id','a.id_evento')
-        ->where('a.respuesta','=','Asiste')
-        ->where('d.fecha','<',date('Y-m-d'))
-        ->where('a.estatus','=','Confirmado')
-        ->where('a.id_evento','=',$request->evento)
-                ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
-        ->get();
-
-    } else if((! is_null($request->fecha)) && (! is_null($request->fecha2))) {
 
         $confirmar = DB::table('llamados as a')
         ->select('a.id','a.id_cliente','a.id_evento','a.respuesta','a.observacion','a.usuario','b.name','c.nombre as nomcliente','c.apellido as apecliente','d.nombre as evento','a.created_at','d.fecha','c.telefono','a.estatus')
@@ -122,48 +94,63 @@ class ConfirmarController extends Controller
         ->join('clientes as c','c.id','a.id_cliente')
         ->join('eventos as d','d.id','a.id_evento')
         ->where('a.respuesta','=','Asiste')
-        ->where('d.fecha','<',date('Y-m-d'))
         ->where('a.estatus','=','Confirmado')
-         ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
+        ->where('a.id_evento','=',$request->evento)
+        ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
         ->get();
+
+    } else if((! is_null($request->fecha)) && (! is_null($request->fecha2))) {
+
+    	 $confirmar = DB::table('llamados as a')
+        ->select('a.id','a.id_cliente','a.id_evento','a.respuesta','a.observacion','a.usuario','b.name','c.nombre as nomcliente','c.apellido as apecliente','d.nombre as evento','a.created_at','d.fecha','c.telefono','a.estatus')
+        ->join('users as b','b.id','a.usuario')
+        ->join('clientes as c','c.id','a.id_cliente')
+        ->join('eventos as d','d.id','a.id_evento')
+        ->where('a.respuesta','=','Asiste')
+        ->where('a.estatus','=','Confirmado')
+        ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
+        ->get();
+
 
 
 
     } elseif (! is_null($request->evento)) {
 
 
-         $confirmar = DB::table('llamados as a')
+        $confirmar = DB::table('llamados as a')
         ->select('a.id','a.id_cliente','a.id_evento','a.respuesta','a.observacion','a.usuario','b.name','c.nombre as nomcliente','c.apellido as apecliente','d.nombre as evento','a.created_at','d.fecha','c.telefono','a.estatus')
         ->join('users as b','b.id','a.usuario')
         ->join('clientes as c','c.id','a.id_cliente')
         ->join('eventos as d','d.id','a.id_evento')
         ->where('a.respuesta','=','Asiste')
-        ->where('d.fecha','<',date('Y-m-d'))
         ->where('a.estatus','=','Confirmado')
         ->where('a.id_evento','=',$request->evento)
         ->get();
+
+
+
+
     } else {
 
-         $confirmar = DB::table('llamados as a')
+
+        $confirmar = DB::table('llamados as a')
         ->select('a.id','a.id_cliente','a.id_evento','a.respuesta','a.observacion','a.usuario','b.name','c.nombre as nomcliente','c.apellido as apecliente','d.nombre as evento','a.created_at','d.fecha','c.telefono','a.estatus')
         ->join('users as b','b.id','a.usuario')
         ->join('clientes as c','c.id','a.id_cliente')
         ->join('eventos as d','d.id','a.id_evento')
         ->where('a.respuesta','=','Asiste')
-        ->where('d.fecha','<',date('Y-m-d'))
-        ->where('a.estatus','=','Confirmado')
+        ->where('a.estatus','=','Confirmado') 
         ->get();
 
-
-
     }
 
-               $eventos =Eventos::all()->pluck('nombre','id');
+                $eventos =Eventos::all()->pluck('nombre','id');
 
 
-        return view('confirmar.index1', compact('confirmar','eventos'));
+        return view('asistencia.index1', compact('confirmar','eventos'));
     }
 
+  
     /**
      * Show the form for creating new User.
      *
@@ -175,14 +162,24 @@ class ConfirmarController extends Controller
             return abort(401);
         }
 
+         $confirmados = DB::table('llamados as a')
+        ->select('a.id','a.id_cliente','a.id_evento','a.respuesta','a.observacion','a.usuario','b.name','c.nombre as nomcliente','c.apellido as apecliente','d.nombre as evento','a.created_at','d.fecha','c.telefono','a.estatus')
+        ->join('users as b','b.id','a.usuario')
+        ->join('clientes as c','c.id','a.id_cliente')
+        ->join('eventos as d','d.id','a.id_evento')
+        ->where('a.respuesta','=','Asiste')
+        ->where('a.estatus','=','Confirmado')
+        ->get();
 
-    $clientes   = Clientes::select(
-             DB::raw("CONCAT(apellido,' ',nombre) AS descripcion"),'id')                  
+
+        
+         $clientes   = Clientes::select(
+             DB::raw("CONCAT(apellido,' ',nombre,' Telef:',telefono) AS descripcion"),'id')                  
                              ->orderby('apellido','ASC')
                              ->get()->pluck('descripcion','id');
-	$eventos =Eventos::all()->pluck('nombre','id');
 
-        return view('llamados.create',compact('clientes','eventos'));
+
+        return view('asistencia.create',compact('eventos'));
     }
 
     /**
@@ -197,21 +194,20 @@ class ConfirmarController extends Controller
             return abort(401);
         }
 
-         $id_usuario = Auth::id();
 
-        
+       
 
-       $llamados = new Llamados;
-       $llamados->id_cliente =$request->cliente;
-       $llamados->id_evento     =$request->evento;
-       $llamados->respuesta     =$request->respuesta;
-       $llamados->observacion     =$request->observacion;
-       $llamados->usuario = Auth::id();
-       $llamados->save();
+       $asistencia = new Asistencia;
+       $asistencia->id_cliente =$request->cliente;
+       $asistencia->id_evento     =$request->evento;
+       $asistencia->usuario = Auth::id();
+       $asistencia->save();
+
+   
 
 
-        return redirect()->route('admin.llamados.index');
-        return redirect()->back()->with("success", "EL EVENTO FUE REGISTRADO EXITOSAMENTE");
+        return redirect()->route('admin.asistencia.index');
+        return redirect()->back()->with("success", "EL CLIENTE FUE REGISTRADO EXITOSAMENTE");
 
     }
 
@@ -228,16 +224,20 @@ class ConfirmarController extends Controller
             return abort(401);
         }
 
-        $llamados = Llamados::findOrFail($id);
-       $clientes   = Clientes::select(
-             DB::raw("CONCAT(apellido,' ',nombre) AS descripcion"),'id')                  
+        $asistencia = Asistencia::findOrFail($id);
+
+        $eventos =Eventos::all()->pluck('nombre','id');
+
+         $clientes   = Clientes::select(
+             DB::raw("CONCAT(apellido,' ',nombre,' Telef:',telefono) AS descripcion"),'id')                  
                              ->orderby('apellido','ASC')
                              ->get()->pluck('descripcion','id');
-	    $eventos =Eventos::all()->pluck('nombre','id');
 
 
-        return view('llamados.edit', compact('llamados','clientes','eventos'));
+        return view('asistencia.edit', compact('clientes','eventos'));
     }
+
+    
 
     /**
      * Update User in storage.
@@ -254,12 +254,10 @@ class ConfirmarController extends Controller
 
 
 
-        $llamados = Llamados::findOrFail($id);
-        $llamados->update($request->all());
-
+     
    
        
-        return redirect()->route('admin.llamados.index');
+        return redirect()->route('admin.asistencia.index');
     }
 
     /**
@@ -273,11 +271,29 @@ class ConfirmarController extends Controller
         if (! Gate::allows('users_manage')) {
             return abort(401);
         }
-        $llamados = Llamados::findOrFail($id);
-        $llamados->estatus= 'Confirmado';
-        $llamados->update();
 
-        return redirect()->route('admin.confirmar.index');
+        
+             $serachdata = DB::table('llamados')
+                    ->select('*')
+                    ->where('id','=', $id)
+                    ->first();  
+
+              $evento= $serachdata->id_evento;
+              $cliente= $serachdata->id_cliente;
+
+        $llamados = Llamados::findOrFail($id);
+        $llamados->estatus= 'Asiste';
+        $llamados->update();       
+
+
+        $asistencia = new Asistencia;
+       $asistencia->id_cliente =$cliente;
+       $asistencia->id_evento =$evento;
+       $asistencia->usuario = Auth::id();
+       $asistencia->save();
+
+
+        return redirect()->route('admin.asistencia.index');
     }
 
     /**
@@ -291,7 +307,7 @@ class ConfirmarController extends Controller
             return abort(401);
         }
         if ($request->input('ids')) {
-            $entries = Llamados::whereIn('id', $request->input('ids'))->get();
+            $entries = Asistencia::whereIn('id', $request->input('ids'))->get();
 
             foreach ($entries as $entry) {
                 $entry->delete();

@@ -30,23 +30,68 @@ class ClientesController extends Controller
         ->join('eventos as c','c.id','a.evento')
         ->get();
 
+
+
         return view('clientes.index', compact('clientes'));
     }
 
-       public function index1()
+       public function index1(Request $request)
     {
         if (! Gate::allows('users_manage')) {
             return abort(401);
         }
 
 
+    if((! is_null($request->evento)) && (! is_null($request->fecha)) && (! is_null($request->fecha2)) ) {
+
          $clientes = DB::table('clientes as a')
-        ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado')
+        ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado')
+        ->join('users as b','b.id','a.usuario')
+        ->join('eventos as c','c.id','a.evento')
+         ->where('a.evento','=',$request->evento)
+        ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
+        ->get();
+
+        } else if((! is_null($request->fecha)) && (! is_null($request->fecha2))) {
+
+             $clientes = DB::table('clientes as a')
+        ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado')
+        ->join('users as b','b.id','a.usuario')
+        ->join('eventos as c','c.id','a.evento')
+        ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
+        ->get();
+
+
+        } elseif (! is_null($request->evento)) {
+
+               $clientes = DB::table('clientes as a')
+        ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado')
+        ->join('users as b','b.id','a.usuario')
+        ->join('eventos as c','c.id','a.evento')
+                 ->where('a.evento','=',$request->evento)
+        ->get();
+
+    } else {
+
+
+             $clientes = DB::table('clientes as a')
+        ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado')
         ->join('users as b','b.id','a.usuario')
         ->join('eventos as c','c.id','a.evento')
         ->get();
 
-        return view('clientes.index1', compact('clientes'));
+
+
+
+    }
+
+
+
+
+
+    $eventos =Eventos::all()->pluck('nombre','id');
+
+        return view('clientes.index1', compact('clientes','eventos'));
     }
 
     /**

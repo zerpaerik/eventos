@@ -48,6 +48,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
      Route::resource('pagos', 'PagosController');
     Route::post('pagos_mass_destroy', ['uses' => 'PagosController@massDestroy', 'as' => 'pagos.mass_destroy']);
 
+        Route::resource('asistencia', 'AsistenciaController');
+    Route::post('asistencia_mass_destroy', ['uses' => 'AsistenciaController@massDestroy', 'as' => 'asistencia.mass_destroy']);
+
 });
     Route::get('/clientes/index1','ClientesController@index1')->name('admin.clientes.index1');
     Route::get('/clientes-llamar-{id}','ClientesController@llamar');
@@ -55,46 +58,23 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::get('/llamados/index1','LlamadosController@index1')->name('admin.llamados.index1');
     Route::get('/confirmar/index1','ConfirmarController@index1')->name('admin.confirmar.index1');
 
-
-    Route::get('/users/locbyemp/{id}','Admin\UsersController@locbyemp');
-    Route::get('/pacientes/distbypro/{id}','Archivos\PacientesController@distbypro');
+        Route::get('/asistencia/index1','AsistenciaController@index1')->name('admin.asistencia.index1');
 
 
 
-/////// RUTAS DE PACIENTES  ////
+    
 
+  Route::get('reportes/llamadas','ReportesController@llamadas')->name('index.llamadas');
+  Route::get('reportes/ingresos','ReportesController@ingresos')->name('index.ingresos');
+  Route::get('reportes/asistentes','ReportesController@asistentes')->name('index.asistentes');
 
-    Route::get('/pacientes', function () {return view('pacientes.create');});
-    Route::get('/pacientes/create','Archivos\PacientesController@create');
-    Route::get('/archivos/pacientes/createmodal', ['uses' => 'Archivos\PacientesController@createmodal', 'as' => 'pacientes.createmodal']);
-    Route::post('/pacientes/store', ['uses' => 'Archivos\PacientesController@store', 'as' => 'pacientes.store']);
-    Route::post('/pacientes/store2', ['uses' => 'Archivos\PacientesController@store2', 'as' => 'pacientes.store2']);
-    Route::get('/pacientes/index',['uses' => 'Archivos\PacientesController@index', 'as' => 'pacientes.index']);
-    Route::get('/pacientes/edit/{id}',['uses' => 'Archivos\PacientesController@edit', 'as' => 'pacientes.edit']);
-    Route::get('/pacientes/ver/{id}',['uses' => 'Archivos\PacientesController@ver', 'as' => 'pacientes.ver']);
-    Route::put('/pacientes/update/{id}',['uses' => 'Archivos\PacientesController@update', 'as' => 'pacientes.update']);
-    Route::put('/pacientes/destroy/{id}',['uses' => 'Archivos\PacientesController@destroy', 'as' => 'pacientes.destroy']);
-  //  Route::get('/atencion/editar/{id}',['uses' => 'Archivos\PacientesController@edit', 'as' => 'pacientes.edit']);
-
-
- Route::put('/comisionesporpagar/destroylab/{id}',['uses' => 'Existencias\ComisionesPorPagarController@destroylab', 'as' => 'comisionesporpagar.destroylab']);
+  Route::get('listado_llamadas','ReportesController@listado_llamadas_ver')->name('listado_llamadas_ver');
+  Route::get('listado_ingresos','ReportesController@listado_ingresos_ver')->name('listado_ingresos_ver');
+  Route::get('listado_asistentes','ReportesController@listado_asistentes_ver')->name('listado_asistentes_ver');
 
 
 
-   Route::get('/existencias/atencion/cardainput/{id}','Existencias\AtencionController@cardainput');
-   Route::get('/existencias/atencion/cardainput2/{id}','Existencias\AtencionController@cardainput2');
-   Route::get('/existencias/atencion/cardainput3/{id}','Existencias\AtencionController@cardainput3');
 
-   Route::get('/movimientos/productos/index2','Movimientos\ProductosController@index2')->name('admin.productos.index2');
-
-
-   Route::get('/indexFecha/{fecha}','Existencias\AtencionController@indexFecha');
-   Route::get('/selectproduct/{id}','Existencias\AtencionController@selectproduct');
-
-   Route::get('createmodal','Archivos\PacientesController@createmodal');
-   Route::get('/total','Reportes\PdfController@totalDiario');
-
-  Route::get('reportes/index','PdfController@index');
   Route::get('listado_atenciondiaria_ver','Reportes\PdfController@listado_atenciondiaria_ver')->name('listado_atenciondiaria_ver');
   Route::get('/historia_pacientes_ver/{id}','Reportes\PdfController@historia_pacientes_ver');
   Route::get('/recibo_profesionales_ver/{id}','Reportes\PdfController@recibo_profesionales_ver');
@@ -103,32 +83,5 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
   Route::get('/resultados_lab_paq_ver/{id}','Reportes\PdfController@resultados_lab_paq_ver')->name('resultados_lab_paq');
   Route::get('/resultados_lab_paq_serv_ver/{id}','Reportes\PdfController@resultados_lab_paq_serv')->name('resultados_lab_paq_serv');
 
-
-  Route::get('/ticket_atencion_ver/{id}','Reportes\PdfController@ticket_atencion_ver');
-
-  Route::get('/existencias/cuentasporcobrar/pagar/{id}', ['uses' => 'Existencias\CuentasporCobrarController@pagar', 'as' => 'admin.cuentasporcobrar.pagar']);
-
-
-
-    Route::get('/prueba','Existencias\AtencionController@prueba');
-    Route::put('destroylab', 'Existencias\ComisionesPorPagarController@destroylab')->name('admin.comisionesporpagar.destroylab');
-
-
-
-  
-    Route::group(['prefix' => 'reportes'], function () {
-        Route::post('reportegeneral', 'ReportesController@reportegeneral');
-        Route::get('filtro-general', 'ReportesController@filtrogeneral')->name('filtros');
-
-
-        
-    });
-
-
-
-     Route::get('pacientesreport', 'ReportesController@pacientes');
-     Route::get('serviciosreport', 'ReportesController@servicios');
-     Route::get('analisisreport', 'ReportesController@analisis');
-     Route::get('reportes', 'ReportesController@index')->name('reportes');
 
 

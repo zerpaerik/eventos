@@ -145,6 +145,29 @@
 
             </li>
 
+               <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-archive"></i>
+                    <span class="title"> Listado de Asistencia</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+
+                    <li class="{{ $request->segment(2) == 'asistencia' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.asistencia.index') }}">
+                            <i class="fa fa-briefcase"></i>
+                            <span class="title">
+                                Registrar
+                            </span>
+                        </a>
+                    </li>
+               
+                </ul>
+
+            </li>
+
 
                 <li class="treeview">
                 <a href="#">
@@ -180,11 +203,11 @@
 
                   <ul class="treeview-menu">
 
-                    <li class="{{ $request->segment(2) == 'pagos' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('admin.pagos.index') }}">
+                    <li class="{{ $request->segment(2) == 'reportes' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('index.llamadas') }}">
                             <i class="fa fa-briefcase"></i>
                             <span class="title">
-                                Ingresos por Evento
+                                Mensual de Llamadas
                             </span>
                         </a>
                     </li>
@@ -193,10 +216,10 @@
                 <ul class="treeview-menu">
 
                     <li class="{{ $request->segment(2) == 'pagos' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('admin.pagos.index') }}">
+                        <a href="{{ route('index.ingresos') }}">
                             <i class="fa fa-briefcase"></i>
                             <span class="title">
-                                Listado de Asistentes
+                                Mensual de Ingresos
                             </span>
                         </a>
                     </li>
@@ -206,10 +229,10 @@
                   <ul class="treeview-menu">
 
                     <li class="{{ $request->segment(2) == 'pagos' ? 'active active-sub' : '' }}">
-                        <a href="{{ route('admin.pagos.index') }}">
+                        <a href="{{ route('index.asistentes') }}">
                             <i class="fa fa-briefcase"></i>
                             <span class="title">
-                                Listado de Pagos
+                                Mensual de Asistentes
                             </span>
                         </a>
                     </li>

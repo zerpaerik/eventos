@@ -2,22 +2,22 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">Clientes</h3>
-    <p>
-        <a href="{{ route('admin.clientes.create') }}" class="btn btn-success" style="background: #DF01A5;">@lang('global.app_add_new')</a>
-    </p>
+    <h3 class="page-title">Registrar Asistente</h3>
+
 
     <div class="panel panel-default">
         <div class="panel-heading">
             @lang('global.app_list')
         </div>
 
+
         {!! Form::open(['method' => 'get', 'route' => ['admin.clientes.index1']]) !!}
 
 
 
       <div class="row">
-      <div class="col-md-3">
+     
+ <div class="col-md-3">
             {!! Form::label('fecha', 'Fecha Inicio', ['class' => 'control-label']) !!}
             {!! Form::date('fecha', old('fechanac'), ['id'=>'fecha','class' => 'form-control', 'placeholder' => '']) !!}
             <p class="help-block"></p>
@@ -54,46 +54,54 @@
             {!! Form::close() !!}
 
         </div>
-        </div>
+    </div>
 
         <div class="panel-body table-responsive">
-            <table class="table table-bordered table-striped {{ count($clientes) > 0 ? 'datatable' : '' }} dt-select">
+            <table class="table table-bordered table-striped {{ count($confirmar) > 0 ? 'datatable' : '' }} dt-select">
                 <thead>
                     <tr>
                         <th style="text-align:center;"><input type="checkbox" id="select-all" /></th>
 
-                        <th>Nombres</th>
-                        <th>Apellidos</th>
-                        <th>Email</th>
+                        <th>Cliente</th>
                         <th>Telèfono</th>
                         <th>Evento</th>
+                        <th>Respuesta</th>
+                        <th>Observaciòn</th>
+                        <th>Fecha</th>
                         <th>Registrado Por:</th>
+                        <th>Estatus:</th>
                         <th>&nbsp;</th>
 
                     </tr>
                 </thead>
                 
                 <tbody>
-                    @if (count($clientes) > 0)
-                        @foreach ($clientes as $ctr)
+                    @if (count($confirmar) > 0)
+                        @foreach ($confirmar as $ctr)
                             <tr data-entry-id="{{ $ctr->id }}">
                                 <td></td>
 
-                                <td>{{ $ctr->nombre }}</td>
-                                <td>{{ $ctr->apellido }}</td>
-                                <td>{{ $ctr->email }}</td>
+                                <td>{{ $ctr->nomcliente }},{{ $ctr->apecliente }}</td>
                                 <td>{{ $ctr->telefono }}</td>
                                 <td>{{ $ctr->evento }}</td>
+                                <td>{{ $ctr->respuesta }}</td>
+                                <td>{{ $ctr->observacion }}</td>
+                                <td>{{ $ctr->created_at }}</td>
                                 <td>{{ $ctr->name }}</td>
+                                @if($ctr->estatus == 'Confirmado')
+                                <td style="background: #58FA82;">{{ $ctr->estatus }}</td>
+                                @else
+                               <td>{{ $ctr->estatus }}</td>
+                               @endif
 
                                 <td>
-                                    <a href="{{ route('admin.clientes.edit',[$ctr->id]) }}" class="btn btn-xs btn-info">@lang('global.app_edit')</a>
-                                    {!! Form::open(array(
+
+                                	  {!! Form::open(array(
                                         'style' => 'display: inline-block;',
                                         'method' => 'DELETE',
                                         'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
-                                        'route' => ['admin.clientes.destroy', $ctr->id])) !!}
-                                    {!! Form::submit(trans('global.app_delete'), array('class' => 'btn btn-xs btn-danger')) !!}
+                                        'route' => ['admin.asistencia.destroy', $ctr->id])) !!}
+                                    {!! Form::submit(trans('Asistirà'), array('class' => 'btn btn-xs btn-danger')) !!}
                                     {!! Form::close() !!}
                                 </td>
 
@@ -110,8 +118,4 @@
     </div>
 @stop
 
-@section('javascript') 
-    <script>
-        window.route_mass_crud_entries_destroy = '{{ route('admin.clientes.mass_destroy') }}';
-    </script>
-@endsection
+

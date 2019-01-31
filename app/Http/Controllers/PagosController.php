@@ -18,21 +18,67 @@ class PagosController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (! Gate::allows('users_manage')) {
             return abort(401);
         }
 
 
+            if((! is_null($request->evento)) && (! is_null($request->fecha)) && (! is_null($request->fecha2)) ) {
+
+
+
          $pagos = DB::table('pagos as a')
-        ->select('a.id','a.id_cliente','a.id_evento','a.monto','a.tipo_pago','a.usuario','b.name','c.nombre as nomcliente','c.apellido','d.nombre','c.telefono','d.nombre as evento')
+        ->select('a.id','a.id_cliente','a.id_evento','a.monto','a.tipo_pago','a.usuario','b.name','c.nombre as nomcliente','c.apellido','d.nombre','c.telefono','d.nombre as evento','a.created_at')
+        ->join('users as b','b.id','a.usuario')
+        ->join('clientes as c','c.id','a.id_cliente')
+        ->join('eventos as d','d.id','a.id_evento')
+         ->where('a.id_evento','=',$request->evento)
+        ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
+        ->get();
+
+    } else if((! is_null($request->fecha)) && (! is_null($request->fecha2))) {
+
+           $pagos = DB::table('pagos as a')
+        ->select('a.id','a.id_cliente','a.id_evento','a.monto','a.tipo_pago','a.usuario','b.name','c.nombre as nomcliente','c.apellido','d.nombre','c.telefono','d.nombre as evento','a.created_at')
+        ->join('users as b','b.id','a.usuario')
+        ->join('clientes as c','c.id','a.id_cliente')
+        ->join('eventos as d','d.id','a.id_evento')
+        ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
+        ->get();
+
+    } elseif (! is_null($request->evento)) {
+
+
+         $pagos = DB::table('pagos as a')
+        ->select('a.id','a.id_cliente','a.id_evento','a.monto','a.tipo_pago','a.usuario','b.name','c.nombre as nomcliente','c.apellido','d.nombre','c.telefono','d.nombre as evento','a.created_at')
+        ->join('users as b','b.id','a.usuario')
+        ->join('clientes as c','c.id','a.id_cliente')
+        ->join('eventos as d','d.id','a.id_evento')
+         ->where('a.id_evento','=',$request->evento)
+        ->get();
+
+} else {
+
+      $pagos = DB::table('pagos as a')
+        ->select('a.id','a.id_cliente','a.id_evento','a.monto','a.tipo_pago','a.usuario','b.name','c.nombre as nomcliente','c.apellido','d.nombre','c.telefono','d.nombre as evento','a.created_at')
         ->join('users as b','b.id','a.usuario')
         ->join('clientes as c','c.id','a.id_cliente')
         ->join('eventos as d','d.id','a.id_evento')
         ->get();
 
-        return view('pagos.index', compact('pagos'));
+
+
+}
+
+
+
+
+            $eventos =Eventos::all()->pluck('nombre','id');
+
+
+        return view('pagos.index', compact('pagos','eventos'));
     }
 
     /**
