@@ -75,8 +75,6 @@ class ConfirmarController extends Controller
         ->join('clientes as c','c.id','a.id_cliente')
         ->join('eventos as d','d.id','a.id_evento')
         ->where('a.respuesta','=','Asiste')
-        ->where('d.fecha','<',date('Y-m-d'))
-                ->whereNotIn('a.estatus',['Asiste'])
         ->get();
 
 
