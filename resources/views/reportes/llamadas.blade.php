@@ -2,53 +2,88 @@
 @extends('layouts.app')
 
 @section('content')
-   <div class="row">
-	<div id="paginacion">
-		<div class="col-md-8 col-sm-8 col-xs-8">
-			<div class="card">
-				<div class="card-action">
-				<div class="col s6">
-					<h3>Reporte Mensual de Llamadas</h3>
-				</div>	
-				 {!! Form::open(['method' => 'GET', 'route' => ['listado_llamadas_ver']]) !!}
+    <h3 class="page-title">Llamadas Mensuales</h3>
+   
 
-				<div class="input-field col s6">
-				</div>
-				</div>
-				<div class="row">
-					 <div class="col-xs-6 form-group">
-                 {!! Form::label("mes","*Mes a Consultar",["class"=>""]) !!}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            @lang('global.app_list')
+        </div>
+
+         {!! Form::open(['method' => 'get', 'route' => ['index.llamadas']]) !!}
+
+
+
+      <div class="row">
+     
+ <div class="col-md-3">
+            {!! Form::label("mes","*Mes a Consultar",["class"=>""]) !!}
 			          <div class="input-icon">
 			            <div class="input-icon">
 			              <i class="icon-eye  font-red"></i>
 
-			              {!! Form::select('mes', ['01' => 'Enero', '02' => 'Febrero','03' => 'Marzo','04' => 'Abril','05' => 'Mayo','06' => 'Junio','07' => 'Julio','08' => 'Agosto','09' => 'Septiembre','10' => 'Octubre','11' => 'Noviembre','12' => 'Diciembre'], null, ['id'=>'mes', 'class'=>'form-control select2','required' => 'true']) !!}
+			              {!! Form::select('mes', ['01' => 'Enero', '02' => 'Febrero','03' => 'Marzo','04' => 'Abril','05' => 'Mayo','06' => 'Junio','07' => 'Julio','08' => 'Agosto','09' => 'Septiembre','10' => 'Octubre','11' => 'Noviembre','12' => 'Diciembre'], null, ['id'=>'mes', 'class'=>'form-control select2']) !!}
 			            </div>
 
 			          </div>
-            </div>
-					
-					<div class="col-md-4">
-						
+        </div>
+      
+     
+        <div class="col-md-2">
+            {!! Form::submit(trans('Buscar'), array('class' => 'btn btn-info')) !!}
+            {!! Form::close() !!}
 
-					</div>
-				</div>
-			
-			</div>
-		</div>
-			<div class="col-md-8 col-sm-8 col-xs-8 edit">
+        </div>
 
-			</div>
-	</div>
+        <div class="col-md-2">
+        	         <p><strong>Mes Consultado: </strong>{{$mes}}</p>
+        	         <p><strong>Total Llamadas: </strong>{{$total->total}}</p>
+        	
+        </div>
+    </div>
 
-</div>
+        <div class="panel-body table-responsive">
+            <table class="table table-bordered table-striped {{ count($llamados) > 0 ? 'datatable' : '' }} dt-select">
+                <thead>
+                    <tr>
+                        <th style="text-align:center;"><input type="checkbox" id="select-all" /></th>
 
-<!-- Recursos javascript-ajax -->
+                        <th>Cliente</th>
+                        <th>Evento</th>
+                        <th>Fecha</th>
+                        <th>Respuesta</th>
+                        <th>Registrado Por:</th>
 
- {!! Form::submit(trans('global.app_search'), array('class' => 'btn btn-danger')) !!}
- {!! Form::close() !!}
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    @if (count($llamados) > 0)
+                        @foreach ($llamados as $ctr)
+                            <tr data-entry-id="{{ $ctr->id }}">
+                                <td></td>
+
+                                <td>{{ $ctr->nomcliente }},{{ $ctr->apecliente }}</td>
+                                <td>{{ $ctr->evento }}</td>
+                                <td>{{ $ctr->created_at }}</td>
+                                <td>{{ $ctr->respuesta }}</td>
+                                <td>{{ $ctr->name }}</td>
+
+                               
+                                  
+
+                            </tr>
+                        @endforeach
+                    @else
+                        <tr>
+                            <td colspan="9">@lang('global.app_no_entries_in_table')</td>
+                        </tr>
+                    @endif
+                </tbody>
+            </table>
+        </div>
+    </div>
 @stop
 
-@section('javascript') 
-   
-@endsection
+
+

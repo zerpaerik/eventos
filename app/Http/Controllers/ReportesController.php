@@ -19,34 +19,176 @@ class ReportesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function llamadas()
+    public function llamadas(Request $request)
     {
         if (! Gate::allows('users_manage')) {
             return abort(401);
         }
 
 
-        return view('reportes.llamadas');
+
+
+         if($request->mes == '01'){
+       	$mes='Enero';
+       }elseif($request->mes == '02'){
+        $mes='Febrero';
+        }elseif($request->mes == '03'){
+        $mes='Marzo';
+        }elseif($request->mes == '04'){
+        $mes='Abril';
+        }elseif($request->mes == '05'){
+        $mes='Mayo';
+        }elseif($request->mes == '06'){
+        $mes='Junio';
+        }elseif($request->mes == '07'){
+        $mes='Julio';
+        }elseif($request->mes == '08'){
+        $mes='Agosto';
+        }elseif($request->mes == '09'){
+        $mes='Septiembre';
+        }elseif($request->mes == '10'){
+        $mes='Octubre';
+        }elseif($request->mes == '11'){
+        $mes='Noviembre';
+        }elseif($request->mes == '12'){
+        $mes='Diciembre';
+        }else{
+        	$mes='Ninguno';
+        }
+     
+
+
+         $llamados = DB::table('llamados as a')
+        ->select('a.id','a.id_cliente','a.id_evento','a.respuesta','a.observacion','a.usuario','b.name','c.nombre as nomcliente','c.apellido as apecliente','d.nombre as evento','a.created_at','c.telefono')
+        ->join('users as b','b.id','a.usuario')
+        ->join('clientes as c','c.id','a.id_cliente')
+        ->join('eventos as d','d.id','a.id_evento')
+        ->whereMonth('a.created_at','=',$request->mes)
+        ->get();
+
+
+         $total = DB::table('llamados as a')
+        ->select(DB::raw('COUNT(a.id) as total'))
+        ->whereMonth('a.created_at','=',$request->mes)
+        ->first();
+
+
+
+        return view('reportes.llamadas', compact('llamados','total','mes'));
     }
 
-        public function ingresos()
+        public function ingresos(Request $request)
     {
         if (! Gate::allows('users_manage')) {
             return abort(401);
         }
 
+         if($request->mes == '01'){
+       	$mes='Enero';
+       }elseif($request->mes == '02'){
+        $mes='Febrero';
+        }elseif($request->mes == '03'){
+        $mes='Marzo';
+        }elseif($request->mes == '04'){
+        $mes='Abril';
+        }elseif($request->mes == '05'){
+        $mes='Mayo';
+        }elseif($request->mes == '06'){
+        $mes='Junio';
+        }elseif($request->mes == '07'){
+        $mes='Julio';
+        }elseif($request->mes == '08'){
+        $mes='Agosto';
+        }elseif($request->mes == '09'){
+        $mes='Septiembre';
+        }elseif($request->mes == '10'){
+        $mes='Octubre';
+        }elseif($request->mes == '11'){
+        $mes='Noviembre';
+        }elseif($request->mes == '12'){
+        $mes='Diciembre';
+        }else{
+        	$mes='Ninguno';
+        }
 
-        return view('reportes.ingresos');
+     
+
+
+         $pagos = DB::table('pagos as a')
+        ->select('a.id','a.id_cliente','a.id_evento','a.monto','a.tipo_pago','a.usuario','b.name','c.nombre as nomcliente','c.apellido','d.nombre','c.telefono','d.nombre as evento','a.created_at')
+        ->join('users as b','b.id','a.usuario')
+        ->join('clientes as c','c.id','a.id_cliente')
+        ->join('eventos as d','d.id','a.id_evento')
+         ->whereMonth('a.created_at','=',$request->mes)
+        ->get();
+
+
+
+         $total = DB::table('pagos as a')
+        ->select(DB::raw('SUM(a.monto) as total'))
+        ->whereMonth('a.created_at','=',$request->mes)
+        ->first();
+
+
+
+        return view('reportes.ingresos',compact('pagos','total','mes'));
     }
 
-         public function asistentes()
+         public function asistentes(Request $request)
     {
         if (! Gate::allows('users_manage')) {
             return abort(401);
         }
 
 
-        return view('reportes.asistentes');
+       if($request->mes == '01'){
+       	$mes='Enero';
+       }elseif($request->mes == '02'){
+        $mes='Febrero';
+        }elseif($request->mes == '03'){
+        $mes='Marzo';
+        }elseif($request->mes == '04'){
+        $mes='Abril';
+        }elseif($request->mes == '05'){
+        $mes='Mayo';
+        }elseif($request->mes == '06'){
+        $mes='Junio';
+        }elseif($request->mes == '07'){
+        $mes='Julio';
+        }elseif($request->mes == '08'){
+        $mes='Agosto';
+        }elseif($request->mes == '09'){
+        $mes='Septiembre';
+        }elseif($request->mes == '10'){
+        $mes='Octubre';
+        }elseif($request->mes == '11'){
+        $mes='Noviembre';
+        }elseif($request->mes == '12'){
+        $mes='Diciembre';
+        }else{
+        	$mes='Ninguno';
+        }
+
+     
+
+          $asistentes = DB::table('asistencias as a')
+        ->select('a.id','a.usuario','a.id_evento','a.id_cliente','b.name','c.nombre as evento','d.nombre as nomcliente','d.apellido as apecliente','a.created_at')
+        ->join('users as b','b.id','a.usuario')
+        ->join('eventos as c','c.id','a.id_evento')
+        ->join('clientes as d','d.id','a.id_cliente')
+        ->whereMonth('a.created_at','=',$request->mes)
+        ->get();
+
+
+
+         $total = DB::table('asistencias as a')
+        ->select(DB::raw('COUNT(a.id) as total'))
+        ->whereMonth('a.created_at','=',$request->mes)
+        ->first();
+
+
+
+        return view('reportes.asistentes',compact('asistentes','total','mes'));
     }
 
 
