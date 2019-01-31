@@ -35,7 +35,6 @@ class ConfirmarController extends Controller
         ->where('a.respuesta','=','Asiste')
         ->where('d.fecha','<',date('Y-m-d'))
         ->where('a.estatus','<>','Confirmado')
-        ->whereNotIn('a.estatus',['Asiste'])
         ->where('a.id_evento','=',$request->evento)
                 ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
         ->get();
@@ -49,7 +48,6 @@ class ConfirmarController extends Controller
         ->join('eventos as d','d.id','a.id_evento')
         ->where('a.respuesta','=','Asiste')
         ->where('d.fecha','<',date('Y-m-d'))
-        ->where('a.estatus','<>','Confirmado')
                 ->whereNotIn('a.estatus',['Asiste'])
          ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
         ->get();
@@ -66,7 +64,6 @@ class ConfirmarController extends Controller
         ->join('eventos as d','d.id','a.id_evento')
         ->where('a.respuesta','=','Asiste')
         ->where('d.fecha','<',date('Y-m-d'))
-        ->where('a.estatus','<>','Confirmado')
                 ->whereNotIn('a.estatus',['Asiste'])
         ->where('a.id_evento','=',$request->evento)
         ->get();
@@ -79,7 +76,6 @@ class ConfirmarController extends Controller
         ->join('eventos as d','d.id','a.id_evento')
         ->where('a.respuesta','=','Asiste')
         ->where('d.fecha','<',date('Y-m-d'))
-        ->where('a.estatus','<>','Confirmado')
                 ->whereNotIn('a.estatus',['Asiste'])
         ->get();
 
