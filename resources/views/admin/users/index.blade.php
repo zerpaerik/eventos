@@ -20,8 +20,7 @@
 
                         <th>@lang('global.users.fields.name')</th>
                         <th>@lang('global.users.fields.email')</th>
-                        <th>@lang('global.users.fields.empresa')</th>
-                        <th>@lang('global.users.fields.sucursal')</th>
+                   
                         <th>&nbsp;</th>
 
                     </tr>
@@ -35,8 +34,7 @@
 
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
-                                <td>{{ $user->nombre }}</td>
-                                <td>{{ $user->nombres }}</td>
+                         
                               
                                 <td>
                                     <a href="{{ route('admin.users.edit',[$user->id]) }}" class="btn btn-xs btn-info">@lang('global.app_edit')</a>

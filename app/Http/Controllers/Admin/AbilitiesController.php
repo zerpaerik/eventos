@@ -18,9 +18,7 @@ class AbilitiesController extends Controller
      */
     public function index()
     {
-        if (! Gate::allows('users_managefull')) {
-            return abort(401);
-        }
+        
 
         $abilities = Ability::all();
 
@@ -34,9 +32,7 @@ class AbilitiesController extends Controller
      */
     public function create()
     {
-        if (! Gate::allows('users_managefull')) {
-            return abort(401);
-        }
+        
         return view('admin.abilities.create');
     }
 
@@ -48,9 +44,7 @@ class AbilitiesController extends Controller
      */
     public function store(StoreAbilitiesRequest $request)
     {
-        if (! Gate::allows('users_managefull')) {
-            return abort(401);
-        }
+        
         Ability::create($request->all());
 
         return redirect()->route('admin.abilities.index');
@@ -65,9 +59,7 @@ class AbilitiesController extends Controller
      */
     public function edit($id)
     {
-        if (! Gate::allows('users_managefull')) {
-            return abort(401);
-        }
+        
         $ability = Ability::findOrFail($id);
 
         return view('admin.abilities.edit', compact('ability'));
@@ -82,9 +74,7 @@ class AbilitiesController extends Controller
      */
     public function update(UpdateAbilitiesRequest $request, $id)
     {
-        if (! Gate::allows('users_managefull')) {
-            return abort(401);
-        }
+        
         $ability = Ability::findOrFail($id);
         $ability->update($request->all());
 
@@ -100,9 +90,7 @@ class AbilitiesController extends Controller
      */
     public function destroy($id)
     {
-        if (! Gate::allows('users_managefull')) {
-            return abort(401);
-        }
+        
         $ability = Ability::findOrFail($id);
         $ability->delete();
 
@@ -116,9 +104,7 @@ class AbilitiesController extends Controller
      */
     public function massDestroy(Request $request)
     {
-        if (! Gate::allows('users_managefull')) {
-            return abort(401);
-        }
+       
         if ($request->input('ids')) {
             $entries = Ability::whereIn('id', $request->input('ids'))->get();
 

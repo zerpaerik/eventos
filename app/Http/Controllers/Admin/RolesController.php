@@ -19,9 +19,7 @@ class RolesController extends Controller
      */
     public function index()
     {
-        if (! Gate::allows('users_managefull')) {
-            return abort(401);
-        }
+       
 
         $roles = Role::all();
 
@@ -35,9 +33,7 @@ class RolesController extends Controller
      */
     public function create()
     {
-        if (! Gate::allows('users_managefull')) {
-            return abort(401);
-        }
+        
         $abilities = Ability::get()->pluck('name', 'name');
 
         return view('admin.roles.create', compact('abilities'));
@@ -51,9 +47,7 @@ class RolesController extends Controller
      */
     public function store(StoreRolesRequest $request)
     {
-        if (! Gate::allows('users_managefull')) {
-            return abort(401);
-        }
+        
         $role = Role::create($request->all());
         $role->allow($request->input('abilities'));
 
@@ -69,9 +63,7 @@ class RolesController extends Controller
      */
     public function edit($id)
     {
-        if (! Gate::allows('users_managefull')) {
-            return abort(401);
-        }
+       
         $abilities = Ability::get()->pluck('name', 'name');
 
         $role = Role::findOrFail($id);
@@ -88,9 +80,7 @@ class RolesController extends Controller
      */
     public function update(UpdateRolesRequest $request, $id)
     {
-        if (! Gate::allows('users_managefull')) {
-            return abort(401);
-        }
+       
         $role = Role::findOrFail($id);
         $role->update($request->all());
         foreach ($role->getAbilities() as $ability) {
@@ -110,9 +100,7 @@ class RolesController extends Controller
      */
     public function destroy($id)
     {
-        if (! Gate::allows('users_managefull')) {
-            return abort(401);
-        }
+        
         $role = Role::findOrFail($id);
         $role->delete();
 
@@ -126,9 +114,7 @@ class RolesController extends Controller
      */
     public function massDestroy(Request $request)
     {
-        if (! Gate::allows('users_managefull')) {
-            return abort(401);
-        }
+       
         if ($request->input('ids')) {
             $entries = Role::whereIn('id', $request->input('ids'))->get();
 
