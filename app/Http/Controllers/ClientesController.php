@@ -74,6 +74,7 @@ class ClientesController extends Controller
         ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado')
         ->join('users as b','b.id','a.usuario')
         ->join('eventos as c','c.id','a.evento')
+        ->where('a.created_at','=',date('Y-m-d'))
         ->get();
 
 
