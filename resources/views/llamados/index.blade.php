@@ -88,8 +88,8 @@
                                 <td>{{ $ctr->name }}</td>
 
                                 <td>
-                                   
-                                  
+                                    <a href="/clientes-rellamar-{{$ctr->id}}" class="btn btn-xs btn-info">Rellamar</a>
+                                    
                                 </td>
 
                             </tr>

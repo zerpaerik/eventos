@@ -11,7 +11,7 @@
         </div>
 
 
-        {!! Form::open(['method' => 'get', 'route' => ['admin.clientes.index1']]) !!}
+        {!! Form::open(['method' => 'get', 'route' => ['admin.asistencia.index1']]) !!}
 
 
 

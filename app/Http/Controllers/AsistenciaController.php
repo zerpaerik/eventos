@@ -26,7 +26,7 @@ class AsistenciaController extends Controller
        if((! is_null($request->evento)) && (! is_null($request->fecha)) && (! is_null($request->fecha2)) ) {
 
          $asistencia = DB::table('asistencias as a')
-        ->select('a.id','a.usuario','a.id_evento','a.id_cliente','b.name','c.nombre as evento','d.nombre as cliente','a.created_at')
+        ->select('a.id','a.usuario','a.id_evento','a.id_cliente','b.name','c.nombre as evento','d.nombre as cliente','d.apellido as ape','a.created_at')
         ->join('users as b','b.id','a.usuario')
         ->join('eventos as c','c.id','a.id_evento')
         ->join('clientes as d','d.id','a.id_cliente')
@@ -39,7 +39,7 @@ class AsistenciaController extends Controller
 
 
          $asistencia = DB::table('asistencias as a')
-        ->select('a.id','a.usuario','a.id_evento','a.id_cliente','b.name','c.nombre as evento','d.nombre as cliente','a.created_at')
+        ->select('a.id','a.usuario','a.id_evento','a.id_cliente','b.name','c.nombre as evento','d.nombre as cliente','d.apellido as ape','a.created_at')
         ->join('users as b','b.id','a.usuario')
         ->join('eventos as c','c.id','a.id_evento')
         ->join('clientes as d','d.id','a.id_cliente')
@@ -51,7 +51,7 @@ class AsistenciaController extends Controller
 
 
          $asistencia = DB::table('asistencias as a')
-        ->select('a.id','a.usuario','a.id_evento','a.id_cliente','b.name','c.nombre as evento','d.nombre as cliente','a.created_at')
+        ->select('a.id','a.usuario','a.id_evento','a.id_cliente','b.name','c.nombre as evento','d.nombre as cliente','d.apellido as ape','a.created_at')
         ->join('users as b','b.id','a.usuario')
         ->join('eventos as c','c.id','a.id_evento')
         ->join('clientes as d','d.id','a.id_cliente')
@@ -61,7 +61,7 @@ class AsistenciaController extends Controller
     }else {
 
     	  $asistencia = DB::table('asistencias as a')
-        ->select('a.id','a.usuario','a.id_evento','a.id_cliente','b.name','c.nombre as evento','d.nombre as cliente','a.created_at')
+        ->select('a.id','a.usuario','a.id_evento','a.id_cliente','b.name','c.nombre as evento','d.nombre as cliente','d.apellido as ape','a.created_at')
         ->join('users as b','b.id','a.usuario')
         ->join('eventos as c','c.id','a.id_evento')
         ->join('clientes as d','d.id','a.id_cliente')

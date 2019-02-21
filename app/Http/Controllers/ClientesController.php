@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Clientes;
 use App\Eventos;
+use App\Llamados;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -181,6 +182,19 @@ class ClientesController extends Controller
         return view('clientes.llamar', compact('clientes','eventos'));
     }
 
+
+      public function rellamar($id)
+    {
+       
+
+        $clientes = Llamados::findOrFail($id);
+
+                $eventos =Eventos::all()->pluck('nombre','id');
+
+
+        return view('clientes.rellamar', compact('clientes','eventos'));
+    }
+
     /**
      * Update User in storage.
      *
@@ -200,6 +214,20 @@ class ClientesController extends Controller
        
         return redirect()->route('admin.clientes.index1');
     }
+
+       public function rellamarpost(Request $request)
+    {
+       
+
+
+        $centros = Llamados::findOrFail($request->id);
+        $centros->update($request->all());
+
+   
+       
+        return redirect()->route('admin.llamados.index');
+    }
+
 
     /**
      * Remove User from storage.

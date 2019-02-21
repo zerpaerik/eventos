@@ -55,6 +55,11 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::get('/clientes/index1','ClientesController@index1')->name('admin.clientes.index1');
     Route::get('/clientes-llamar-{id}','ClientesController@llamar');
 
+    Route::get('/clientes-rellamar-{id}','ClientesController@rellamar');
+    Route::put('/rellamar','ClientesController@rellamarpost')->name('admin.rellamar.update');
+
+
+
     Route::get('/llamados/index1','LlamadosController@index1')->name('admin.llamados.index1');
     Route::get('/confirmar/index1','ConfirmarController@index1')->name('admin.confirmar.index1');
 

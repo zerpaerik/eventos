@@ -2,7 +2,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">Listado de Asistencia</h3>
+    <h3 class="page-title">Listado de Asistencias</h3>
 
     <p>
         <a href="{{ route('admin.asistencia.index1') }}" class="btn btn-success" style="background: #DF01A5;">Registrar Asistencia</a>
@@ -79,7 +79,7 @@
                             <tr data-entry-id="{{ $ctr->id }}">
                                 <td></td>
 
-                                <td>{{ $ctr->cliente }}</td>
+                                <td>{{ $ctr->cliente }},{{ $ctr->ape }}</td>
                                 <td>{{ $ctr->evento }}</td>
                                 <td>{{ $ctr->created_at }}</td>
                                 <td>{{ $ctr->name }}</td>
