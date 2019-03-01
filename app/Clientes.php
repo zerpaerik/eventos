@@ -21,7 +21,7 @@ class Clientes extends Authenticatable
     use Notifiable;
     use HasRolesAndAbilities;
 
-    protected $fillable = ['nombre', 'apellido', 'telefono','email','usuario'];
+    protected $fillable = ['nombre', 'apellido', 'telefono','email','usuario','evento'];
     
     
    

@@ -205,6 +205,7 @@ class ClientesController extends Controller
     public function update(Request $request, $id)
     {
        
+      
 
 
         $centros = Clientes::findOrFail($id);

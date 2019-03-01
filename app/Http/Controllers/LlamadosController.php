@@ -250,7 +250,7 @@ class LlamadosController extends Controller
        $llamados->save();           
 
        
-        return redirect()->route('admin.llamados.index');
+        return redirect()->route('admin.llamados.index1');
     }
 
     /**
