@@ -123,13 +123,12 @@ class ClientesController extends Controller
           $validator = \Validator::make($request->all(), [
           'nombre' => 'required|string|max:255',
           'apellido' => 'required|string|max:255',
-		   'telefono' => 'required|unique:clientes'
           
         ]);
 
         if($validator->fails()) {
 
-       return redirect()->back()->with("error", " EL TELEFONO INTRODUCIDO YA ESTA REGISTRADO PARA UN CLIENTE");
+       return redirect()->back()->with("error", "VERIFIQUE LOS DATOS");
         
         } else {
 
