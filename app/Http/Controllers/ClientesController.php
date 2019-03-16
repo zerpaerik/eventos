@@ -20,75 +20,54 @@ class ClientesController extends Controller
      */
     public function index()
     {
-        
-
-
-         $clientes = DB::table('clientes as a')
-        ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.usuario','a.evento','b.name','c.nombre as evento')
-        ->join('users as b','b.id','a.usuario')
-        ->join('eventos as c','c.id','a.evento')
-        ->get();
-
-
-
+        $clientes = DB::table('clientes as a')
+            ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.usuario','a.evento','b.name','c.nombre as evento')
+            ->join('users as b','b.id','a.usuario')
+            ->join('eventos as c','c.id','a.evento')
+            ->get();
         return view('clientes.index', compact('clientes'));
     }
 
-       public function index1(Request $request)
+    public function index1(Request $request)
     {
-       
+        if((! is_null($request->evento)) && (! is_null($request->fecha)) && (! is_null($request->fecha2)) ) {
 
-
-    if((! is_null($request->evento)) && (! is_null($request->fecha)) && (! is_null($request->fecha2)) ) {
-
-         $clientes = DB::table('clientes as a')
-        ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado')
-        ->join('users as b','b.id','a.usuario')
-        ->join('eventos as c','c.id','a.evento')
-         ->where('a.evento','=',$request->evento)
-        ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
-        ->get();
+            $clientes = DB::table('clientes as a')
+                ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado')
+                ->join('users as b','b.id','a.usuario')
+                ->join('eventos as c','c.id','a.evento')
+                ->where('a.evento','=',$request->evento)
+                ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
+                ->get();
 
         } else if((! is_null($request->fecha)) && (! is_null($request->fecha2))) {
 
-             $clientes = DB::table('clientes as a')
-        ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado')
-        ->join('users as b','b.id','a.usuario')
-        ->join('eventos as c','c.id','a.evento')
-        ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
-        ->get();
+            $clientes = DB::table('clientes as a')
+                ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado')
+                ->join('users as b','b.id','a.usuario')
+                ->join('eventos as c','c.id','a.evento')
+                ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
+                ->get();
 
 
         } elseif (! is_null($request->evento)) {
 
-               $clientes = DB::table('clientes as a')
-        ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado')
-        ->join('users as b','b.id','a.usuario')
-        ->join('eventos as c','c.id','a.evento')
-                 ->where('a.evento','=',$request->evento)
-        ->get();
+            $clientes = DB::table('clientes as a')
+                ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado')
+                ->join('users as b','b.id','a.usuario')
+                ->join('eventos as c','c.id','a.evento')
+                ->where('a.evento','=',$request->evento)
+                ->get();
+        } else {
+            $clientes = DB::table('clientes as a')
+                ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado')
+                ->join('users as b','b.id','a.usuario')
+                ->join('eventos as c','c.id','a.evento')
+                ->where('a.created_at','=',date('Y-m-d'))
+                ->get();
+        }
 
-    } else {
-
-
-             $clientes = DB::table('clientes as a')
-        ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado')
-        ->join('users as b','b.id','a.usuario')
-        ->join('eventos as c','c.id','a.evento')
-        ->where('a.created_at','=',date('Y-m-d'))
-        ->get();
-
-
-
-
-    }
-
-
-
-
-
-    $eventos =Eventos::all()->pluck('nombre','id');
-
+        $eventos =Eventos::all()->pluck('nombre','id');
         return view('clientes.index1', compact('clientes','eventos'));
     }
 
@@ -99,12 +78,9 @@ class ClientesController extends Controller
      */
     public function create()
     {
+        $eventos =Eventos::whereBetween('fecha', [date("Y-m-d"), date("Y")."-12-31"])
+                        ->pluck('nombre','id');
         
-
-        $eventos =Eventos::all()->pluck('nombre','id');
-
-    
-
         return view('clientes.create',compact('eventos'));
     }
 
@@ -116,40 +92,31 @@ class ClientesController extends Controller
      */
     public function store(Request $request)
     {
-       
+        $id_usuario = Auth::id();
 
-         $id_usuario = Auth::id();
-
-          $validator = \Validator::make($request->all(), [
+        $validator = \Validator::make($request->all(), [
           'nombre' => 'required|string|max:255',
           'apellido' => 'required|string|max:255',
           
         ]);
 
         if($validator->fails()) {
-
-       return redirect()->back()->with("error", "VERIFIQUE LOS DATOS");
-        
+            return redirect()->back()->with("error", "VERIFIQUE LOS DATOS");
         } else {
-
-
-       $clientes = new Clientes;
-       $clientes->nombre =$request->nombre;
-       $clientes->apellido     =$request->apellido;
-       $clientes->telefono     =$request->telefono;
-       $clientes->email= $request->email;
-       $clientes->evento= $request->evento;
-       $clientes->usuario = Auth::id();
-       $clientes->save();
-
-       }   
-
+            $clientes = new Clientes;
+            $clientes->nombre =$request->nombre;
+            $clientes->apellido     =$request->apellido;
+            $clientes->telefono     =$request->telefono;
+            $clientes->email= $request->email;
+            $clientes->evento= $request->evento;
+            $clientes->usuario = Auth::id();
+            $clientes->save();
+        }   
 
         return redirect()->route('admin.clientes.index1');
         return redirect()->back()->with("success", "EL CLIENTE FUE REGISTRADO EXITOSAMENTE");
 
     }
-
 
     /**
      * Show the form for editing User.
@@ -159,36 +126,28 @@ class ClientesController extends Controller
      */
     public function edit($id)
     {
-        
-
         $clientes = Clientes::findOrFail($id);
-
-                $eventos =Eventos::all()->pluck('nombre','id');
-
-
+        $eventos =Eventos::whereBetween('fecha', [date("Y-m-d"), date("Y")."-12-31"])
+                        ->pluck('nombre','id');
         return view('clientes.edit', compact('clientes','eventos'));
     }
 
-      public function llamar($id)
+    public function llamar($id)
     {
-       
-
         $clientes = Clientes::findOrFail($id);
-
-                $eventos =Eventos::all()->pluck('nombre','id');
-
-
+        $eventos =Eventos::whereBetween('fecha', [date("Y-m-d"), date("Y")."-12-31"])
+                        ->pluck('nombre','id');
+        //$eventos =Eventos::all()->pluck('nombre','id');
         return view('clientes.llamar', compact('clientes','eventos'));
     }
 
 
-      public function rellamar($id)
+    public function rellamar($id)
     {
-       
-
         $clientes = Llamados::findOrFail($id);
-
-                $eventos =Eventos::all()->pluck('nombre','id');
+        $eventos =Eventos::whereBetween('fecha', [date("Y-m-d"), date("Y")."-12-31"])
+                        ->pluck('nombre','id');
+        //$eventos =Eventos::all()->pluck('nombre','id');
 
 
         return view('clientes.rellamar', compact('clientes','eventos'));
@@ -203,28 +162,15 @@ class ClientesController extends Controller
      */
     public function update(Request $request, $id)
     {
-       
-      
-
-
         $centros = Clientes::findOrFail($id);
         $centros->update($request->all());
-
-   
-       
         return redirect()->route('admin.clientes.index1');
     }
 
-       public function rellamarpost(Request $request)
+    public function rellamarpost(Request $request)
     {
-       
-
-
         $centros = Llamados::findOrFail($request->id);
         $centros->update($request->all());
-
-   
-       
         return redirect()->route('admin.llamados.index');
     }
 
@@ -237,7 +183,6 @@ class ClientesController extends Controller
      */
     public function destroy($id)
     {
-       
         $centros = Clientes::findOrFail($id);
         $centros->delete();
 
@@ -251,7 +196,6 @@ class ClientesController extends Controller
      */
     public function massDestroy(Request $request)
     {
-        
         if ($request->input('ids')) {
             $entries = Clientes::whereIn('id', $request->input('ids'))->get();
 
