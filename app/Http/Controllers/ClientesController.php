@@ -68,6 +68,7 @@ class ClientesController extends Controller
         }
         $eventos =Eventos::whereBetween('fecha', [date("Y-m-d"), date("Y")."-12-31"])
                         ->pluck('nombre','id');
+       
         return view('clientes.index1', compact('clientes','eventos'));
     }
 
@@ -94,7 +95,7 @@ class ClientesController extends Controller
     {
         $id_usuario = Auth::id();
 
-        $validator = \Validator::make($request->all(), [
+        /*$validator = \Validator::make($request->all(), [
           'nombre' => 'required|string|max:255',
           'apellido' => 'required|string|max:255',
           
@@ -102,7 +103,7 @@ class ClientesController extends Controller
 
         if($validator->fails()) {
             return redirect()->back()->with("error", "VERIFIQUE LOS DATOS");
-        } else {
+        } else {*/
             $clientes = new Clientes;
             $clientes->nombre =$request->nombre;
             $clientes->apellido     =$request->apellido;
@@ -110,11 +111,15 @@ class ClientesController extends Controller
             $clientes->email= $request->email;
             $clientes->evento= $request->evento;
             $clientes->usuario = Auth::id();
-            $clientes->save();
-        }   
+            if($clientes->save()){
+                return 1;
+            } else {
+                return 0;
+            }
+        //}   
 
-        return redirect()->route('admin.clientes.index1');
-        return redirect()->back()->with("success", "EL CLIENTE FUE REGISTRADO EXITOSAMENTE");
+        //return redirect()->route('admin.clientes.index1');
+        //return redirect()->back()->with("success", "EL CLIENTE FUE REGISTRADO EXITOSAMENTE");
 
     }
 

@@ -8,8 +8,8 @@
 
 
 
-      <div class="row">
- <div class="col-md-3">
+    <div class="row">
+        <div class="col-md-3">
             {!! Form::label('fecha', 'Fecha Inicio', ['class' => 'control-label']) !!}
             {!! Form::date('fecha', old('fechanac'), ['id'=>'fecha','class' => 'form-control', 'placeholder' => '']) !!}
             <p class="help-block"></p>
@@ -29,9 +29,7 @@
             </p>
             @endif
         </div>
-     
-
-         <div class="col-md-3">
+        <div class="col-md-3">
              {!! Form::label('evento', 'Eventos*', ['class' => 'control-label']) !!}
                     {!! Form::select('evento', $eventos, old('eventos'), ['class' => 'form-control select2']) !!}
                     <p class="help-block"></p>
