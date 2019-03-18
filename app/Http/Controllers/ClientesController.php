@@ -63,11 +63,11 @@ class ClientesController extends Controller
                 ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado')
                 ->join('users as b','b.id','a.usuario')
                 ->join('eventos as c','c.id','a.evento')
-                ->where('a.created_at','=',date('Y-m-d'))
+                //->where('a.created_at','=',date('Y-m-d'))
                 ->get();
         }
-
-        $eventos =Eventos::all()->pluck('nombre','id');
+        $eventos =Eventos::whereBetween('fecha', [date("Y-m-d"), date("Y")."-12-31"])
+                        ->pluck('nombre','id');
         return view('clientes.index1', compact('clientes','eventos'));
     }
 

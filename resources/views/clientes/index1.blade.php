@@ -88,6 +88,11 @@
 
                                 <td>
                                     <a href="{{ route('admin.clientes.edit',[$ctr->id]) }}" class="btn btn-xs btn-info">@lang('global.app_edit')</a>
+                                    @if($ctr->llamado == 'SI')
+                                        <a href="/clientes-rellamar-{{$ctr->id}}" class="btn btn-xs btn-info">@lang('global.app_redial')</a>
+                                    @else
+                                        <a href="/clientes-llamar-{{$ctr->id}}" class="btn btn-xs btn-info">@lang('global.app_called')</a>
+                                    @endif
                                     {!! Form::open(array(
                                         'style' => 'display: inline-block;',
                                         'method' => 'DELETE',

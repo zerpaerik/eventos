@@ -76,8 +76,8 @@ class LlamadosController extends Controller
 
         return view('llamados.index', compact('llamados','eventos'));
     }
-
-      public function index1(Request $request)
+    
+    public function index1(Request $request)
     {
         
 
