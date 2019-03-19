@@ -22,7 +22,7 @@ class Llamados extends Authenticatable
     use Notifiable;
     use HasRolesAndAbilities;
 
-    protected $fillable = ['id_evento', 'id_cliente', 'respuesta','observacion','usuario'];
+    protected $fillable = ['id_evento', 'id_cliente', 'respuesta','observacion','usuario', 'estatus'];
     
     
    

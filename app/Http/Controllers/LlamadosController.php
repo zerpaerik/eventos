@@ -167,10 +167,6 @@ class LlamadosController extends Controller
 
          $id_usuario = Auth::id();
 
-
-         dd($id);
-         die();
-
              $serachcliente = DB::table('clientes')
                     ->select('*')
                     ->where('id','=', $id)
@@ -225,9 +221,6 @@ class LlamadosController extends Controller
     public function update(Request $request, $id)
     {
        
-        
-
-       
              $serachcliente = DB::table('clientes')
                     ->select('*')
                     ->where('id','=', $id)
@@ -250,7 +243,7 @@ class LlamadosController extends Controller
        $llamados->save();           
 
        
-        return redirect()->route('admin.llamados.index1');
+        return redirect()->route('admin.clientes.index1');
     }
 
     /**
@@ -265,7 +258,7 @@ class LlamadosController extends Controller
         $llamados = Llamados::findOrFail($id);
         $llamados->delete();
 
-        return redirect()->route('admin.llamados.index');
+        return redirect()->route('admin.clientes.index1');
     }
 
     /**

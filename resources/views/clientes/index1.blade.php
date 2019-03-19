@@ -71,7 +71,9 @@
                         <th>Email</th>
                         <th>Telèfono</th>
                         <th>Evento</th>
-                        <th>Registrado Por:</th>
+                        <th>Registrado Por</th>
+                        <th>Llamado</th>
+                        <th>Estado</th>
                         <th>&nbsp;</th>
 
                     </tr>
@@ -89,14 +91,41 @@
                                 <td>{{ $ctr->telefono }}</td>
                                 <td>{{ $ctr->evento }}</td>
                                 <td>{{ $ctr->name }}</td>
+                                <td>
+                                    @if($ctr->llamado == 'SI')
+                                        {{ $ctr->llamado }}
+                                    @else
+                                        {{ 'No' }}
+                                    @endif
+                                </td>
+                                <td>
+                                    @if(!is_null($ctr->estatus))
+                                        {{ $ctr->estatus }}
+                                    @else
+                                        {{ 'Sin Estado' }}
+                                    @endif
+                                </td>
 
                                 <td>
+                                
                                     <a href="{{ route('admin.clientes.edit',[$ctr->id]) }}" class="btn btn-xs btn-info">@lang('global.app_edit')</a>
-                                    @if($ctr->llamado == 'SI')
-                                        <a href="/clientes-rellamar-{{$ctr->id}}" class="btn btn-xs btn-info">@lang('global.app_redial')</a>
-                                    @else
+                                    @if(is_null($ctr->llamado))
                                         <a href="/clientes-llamar-{{$ctr->id}}" class="btn btn-xs btn-info">@lang('global.app_called')</a>
                                     @endif
+                                    @if($ctr->llamado == 'SI' && $ctr->estatus <> 'Asiste' && $ctr->estatus != 'Confirmado')
+                                        <a href="/clientes-rellamar-{{$ctr->id}}" class="btn btn-xs btn-info">@lang('global.app_redial')</a>
+                                    @endif
+
+                                    @if($ctr->estatus == 'Asiste')
+                                        {!! Form::open(array(
+                                            'style' => 'display: inline-block;',
+                                            'method' => 'DELETE',
+                                            'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
+                                            'route' => ['admin.confirmar.destroy', $ctr->id])) !!}
+                                        {!! Form::submit(trans('Confirmar'), array('class' => 'btn btn-xs btn-danger')) !!}
+                                        {!! Form::close() !!}
+                                    @endif
+
                                     {!! Form::open(array(
                                         'style' => 'display: inline-block;',
                                         'method' => 'DELETE',
@@ -169,7 +198,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-default close" data-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary save">@lang('global.app_save')</button>
             </div>
             </div>
@@ -251,6 +280,10 @@
                     }
                 });
             }
+        });
+
+        $(document).on('click', '.close', function(){
+            
         });
 
     

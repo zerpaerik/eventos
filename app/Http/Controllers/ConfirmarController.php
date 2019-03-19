@@ -227,14 +227,12 @@ class ConfirmarController extends Controller
     public function update(Request $request, $id)
     {
       
-
-
         $llamados = Llamados::findOrFail($id);
         $llamados->update($request->all());
 
    
        
-        return redirect()->route('admin.llamados.index');
+        return redirect()->route('admin.clientes.index1');
     }
 
     /**
@@ -245,12 +243,11 @@ class ConfirmarController extends Controller
      */
     public function destroy($id)
     {
-       
         $llamados = Llamados::findOrFail($id);
         $llamados->estatus= 'Confirmado';
         $llamados->update();
 
-        return redirect()->route('admin.confirmar.index');
+        return redirect()->route('admin.clientes.index1');
     }
 
     /**

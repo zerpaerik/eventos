@@ -33,19 +33,21 @@ class ClientesController extends Controller
         if((! is_null($request->evento)) && (! is_null($request->fecha)) && (! is_null($request->fecha2)) ) {
 
             $clientes = DB::table('clientes as a')
-                ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado')
+                ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado', 'l.estatus')
                 ->join('users as b','b.id','a.usuario')
                 ->join('eventos as c','c.id','a.evento')
                 ->where('a.evento','=',$request->evento)
+                ->leftjoin('llamados as l', 'l.id_cliente', 'a.id')
                 ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
                 ->get();
 
         } else if((! is_null($request->fecha)) && (! is_null($request->fecha2))) {
 
             $clientes = DB::table('clientes as a')
-                ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado')
+                ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado', 'l.estatus')
                 ->join('users as b','b.id','a.usuario')
                 ->join('eventos as c','c.id','a.evento')
+                ->leftjoin('llamados as l', 'l.id_cliente', 'a.id')
                 ->whereBetween('a.created_at',[$request->fecha,$request->fecha2])
                 ->get();
 
@@ -53,19 +55,22 @@ class ClientesController extends Controller
         } elseif (! is_null($request->evento)) {
 
             $clientes = DB::table('clientes as a')
-                ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado')
+                ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado', 'l.estatus')
                 ->join('users as b','b.id','a.usuario')
                 ->join('eventos as c','c.id','a.evento')
+                ->leftjoin('llamados as l', 'l.id_cliente', 'a.id')
                 ->where('a.evento','=',$request->evento)
                 ->get();
         } else {
             $clientes = DB::table('clientes as a')
-                ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado')
+                ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado', 'l.estatus')
                 ->join('users as b','b.id','a.usuario')
                 ->join('eventos as c','c.id','a.evento')
+                ->leftjoin('llamados as l', 'l.id_cliente', 'a.id')
                 //->where('a.created_at','=',date('Y-m-d'))
                 ->get();
         }
+
         $eventos =Eventos::whereBetween('fecha', [date("Y-m-d"), date("Y")."-12-31"])
                         ->pluck('nombre','id');
        
@@ -174,9 +179,10 @@ class ClientesController extends Controller
 
     public function rellamarpost(Request $request)
     {
-        $centros = Llamados::findOrFail($request->id);
+        $centros = Llamados::findOrFail($request->input('id'));
         $centros->update($request->all());
-        return redirect()->route('admin.llamados.index');
+        return redirect()->route('admin.clientes.index1');
+        //return redirect()->route('admin.llamados.index');
     }
 
 
