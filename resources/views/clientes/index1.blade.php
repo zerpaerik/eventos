@@ -73,6 +73,7 @@
                         <th>Evento</th>
                         <th>Registrado Por</th>
                         <th>Llamado</th>
+                        <th>Respuesta</th>
                         <th>Estado</th>
                         <th>&nbsp;</th>
 
@@ -99,6 +100,9 @@
                                     @endif
                                 </td>
                                 <td>
+                                    {{ $ctr->respuesta }}
+                                </td>
+                                <td>
                                     @if(!is_null($ctr->estatus))
                                         {{ $ctr->estatus }}
                                     @else
@@ -116,7 +120,7 @@
                                         <a href="/clientes-rellamar-{{$ctr->id}}" class="btn btn-xs btn-info">@lang('global.app_redial')</a>
                                     @endif
 
-                                    @if($ctr->estatus == 'Asiste')
+                                    @if($ctr->respuesta == 'Asiste' && $ctr->estatus == 'No Confirmado')
                                         {!! Form::open(array(
                                             'style' => 'display: inline-block;',
                                             'method' => 'DELETE',
@@ -125,6 +129,15 @@
                                         {!! Form::submit(trans('Confirmar'), array('class' => 'btn btn-xs btn-danger')) !!}
                                         {!! Form::close() !!}
                                     @endif
+                                     @if($ctr->respuesta == 'Asiste' && $ctr->estatus == 'Confirmado')
+                                     {!! Form::open(array(
+                                        'style' => 'display: inline-block;',
+                                        'method' => 'DELETE',
+                                        'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
+                                        'route' => ['admin.asistencia.destroy', $ctr->id])) !!}
+                                    {!! Form::submit(trans('Asistirà'), array('class' => 'btn btn-xs btn-danger')) !!}
+                                    {!! Form::close() !!}
+                                     @endif
 
                                     {!! Form::open(array(
                                         'style' => 'display: inline-block;',

@@ -33,7 +33,7 @@ class ClientesController extends Controller
         if((! is_null($request->evento)) && (! is_null($request->fecha)) && (! is_null($request->fecha2)) ) {
 
             $clientes = DB::table('clientes as a')
-                ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado', 'l.estatus')
+                ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado', 'l.estatus','l.respuesta')
                 ->join('users as b','b.id','a.usuario')
                 ->join('eventos as c','c.id','a.evento')
                 ->where('a.evento','=',$request->evento)
@@ -44,7 +44,7 @@ class ClientesController extends Controller
         } else if((! is_null($request->fecha)) && (! is_null($request->fecha2))) {
 
             $clientes = DB::table('clientes as a')
-                ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado', 'l.estatus')
+                ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado', 'l.estatus','l.respuesta')
                 ->join('users as b','b.id','a.usuario')
                 ->join('eventos as c','c.id','a.evento')
                 ->leftjoin('llamados as l', 'l.id_cliente', 'a.id')
@@ -55,7 +55,7 @@ class ClientesController extends Controller
         } elseif (! is_null($request->evento)) {
 
             $clientes = DB::table('clientes as a')
-                ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado', 'l.estatus')
+                ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado', 'l.estatus','l.respuesta')
                 ->join('users as b','b.id','a.usuario')
                 ->join('eventos as c','c.id','a.evento')
                 ->leftjoin('llamados as l', 'l.id_cliente', 'a.id')
@@ -63,7 +63,7 @@ class ClientesController extends Controller
                 ->get();
         } else {
             $clientes = DB::table('clientes as a')
-                ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado', 'l.estatus')
+                ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado', 'l.estatus','l.respuesta')
                 ->join('users as b','b.id','a.usuario')
                 ->join('eventos as c','c.id','a.evento')
                 ->leftjoin('llamados as l', 'l.id_cliente', 'a.id')
