@@ -77,6 +77,19 @@ class ClientesController extends Controller
         return view('clientes.index1', compact('clientes','eventos'));
     }
 
+    public function indexRellamados()
+    {
+        $clientes = DB::table('clientes as a')
+                ->select('a.id','a.nombre','a.apellido','a.telefono','a.email','a.created_at','a.usuario','a.evento','b.name','c.nombre as evento','a.llamado', 'l.estatus','l.respuesta')
+                ->join('users as b','b.id','a.usuario')
+                ->join('eventos as c','c.id','a.evento')
+                ->join('llamados as l', 'l.id_cliente', 'a.id')
+                //->where('l.estatus','=','Rellamado')
+                ->get();
+
+        return view('clientes.indexR', compact('clientes'));
+    }
+
     /**
      * Show the form for creating new User.
      *
@@ -154,12 +167,11 @@ class ClientesController extends Controller
 
     public function rellamar($id)
     {
-        $clientes = Llamados::findOrFail($id);
+        $clientes = Llamados::where('id_cliente', $id)->first();
         $eventos =Eventos::whereBetween('fecha', [date("Y-m-d"), date("Y")."-12-31"])
                         ->pluck('nombre','id');
         //$eventos =Eventos::all()->pluck('nombre','id');
-
-
+       
         return view('clientes.rellamar', compact('clientes','eventos'));
     }
 
@@ -179,8 +191,18 @@ class ClientesController extends Controller
 
     public function rellamarpost(Request $request)
     {
-        $centros = Llamados::findOrFail($request->input('id'));
-        $centros->update($request->all());
+        $data = Llamados::findOrFail($request->input('id'));
+        $newD = new Llamados;
+        $newD->id_evento = $data->id_evento; 
+        $newD->id_cliente = $data->id_cliente; 
+        $newD->respuesta = $request->input('respuesta');
+        $newD->observacion = $request->input('observacion');
+        $newD->usuario = Auth::user()->id; 
+        $newD->estatus = 'Rellamado';
+
+        $newD->save();
+        //Llamados::create($data);
+       //$centros->update($request->all());
         return redirect()->route('admin.clientes.index1');
         //return redirect()->route('admin.llamados.index');
     }

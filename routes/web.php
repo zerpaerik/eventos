@@ -57,6 +57,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
 
     Route::get('/clientes-rellamar-{id}','ClientesController@rellamar');
     Route::put('/rellamar','ClientesController@rellamarpost')->name('admin.rellamar.update');
+    Route::get('/rellamados','ClientesController@indexRellamados')->name('admin.rellamados');
 
 
 
