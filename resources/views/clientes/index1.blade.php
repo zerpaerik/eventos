@@ -2,7 +2,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">Clientes</h3>
+    <h3 class="page-title">Clientesss</h3>
     <p>
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary" style="background: #DF01A5;" data-toggle="modal" data-target="#myModal">
@@ -120,7 +120,7 @@
                                         <a href="/clientes-rellamar-{{$ctr->id}}" class="btn btn-xs btn-info">@lang('global.app_redial')</a>
                                     @endif
 
-                                    @if($ctr->respuesta == 'Asiste' && $ctr->estatus == 'No Confirmado')
+                                    @if($ctr->respuesta == 'Asiste')
                                         {!! Form::open(array(
                                             'style' => 'display: inline-block;',
                                             'method' => 'DELETE',
@@ -129,7 +129,7 @@
                                         {!! Form::submit(trans('Confirmar'), array('class' => 'btn btn-xs btn-danger')) !!}
                                         {!! Form::close() !!}
                                     @endif
-                                     @if($ctr->respuesta == 'Asiste' && $ctr->estatus == 'Confirmado')
+                                     @if($ctr->estatus == 'Confirmado')
                                      {!! Form::open(array(
                                         'style' => 'display: inline-block;',
                                         'method' => 'DELETE',

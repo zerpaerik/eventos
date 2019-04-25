@@ -2,13 +2,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <h3 class="page-title">Listado de Asistencias</h3>
+    <h3 class="page-title">Listado de Asistentes</h3>
 
-    <p>
-        <a href="{{ route('admin.asistencia.index1') }}" class="btn btn-success" style="background: #DF01A5;">Registrar Asistencia</a>
-    </p>
+
   
-
     <div class="panel panel-default">
         <div class="panel-heading">
             @lang('global.app_list')
