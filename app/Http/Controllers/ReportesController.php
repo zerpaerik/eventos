@@ -61,17 +61,24 @@ class ReportesController extends Controller
         ->join('clientes as c','c.id','a.id_cliente')
         ->join('eventos as d','d.id','a.id_evento')
         ->whereMonth('a.created_at','=',$request->mes)
+        ->where('a.id_evento','=',$request->evento)
         ->get();
 
 
          $total = DB::table('llamados as a')
         ->select(DB::raw('COUNT(a.id) as total'))
         ->whereMonth('a.created_at','=',$request->mes)
+        ->where('id_evento','=',$request->evento)
         ->first();
 
 
 
-        return view('reportes.llamadas', compact('llamados','total','mes'));
+         $eventos =Eventos::whereBetween('fecha', [date("Y-m-d"), date("Y")."-12-31"])
+                        ->pluck('nombre','id');
+
+
+
+        return view('reportes.llamadas', compact('llamados','total','mes','eventos'));
     }
 
         public function ingresos(Request $request)
@@ -115,6 +122,7 @@ class ReportesController extends Controller
         ->join('clientes as c','c.id','a.id_cliente')
         ->join('eventos as d','d.id','a.id_evento')
          ->whereMonth('a.created_at','=',$request->mes)
+         ->where('a.id_evento','=',$request->evento)
         ->get();
 
 
@@ -122,11 +130,15 @@ class ReportesController extends Controller
          $total = DB::table('pagos as a')
         ->select(DB::raw('SUM(a.monto) as total'))
         ->whereMonth('a.created_at','=',$request->mes)
+       ->where('id_evento','=',$request->evento)
         ->first();
 
+         $eventos =Eventos::whereBetween('fecha', [date("Y-m-d"), date("Y")."-12-31"])
+                        ->pluck('nombre','id');
 
 
-        return view('reportes.ingresos',compact('pagos','total','mes'));
+
+        return view('reportes.ingresos',compact('pagos','total','mes','eventos'));
     }
 
          public function asistentes(Request $request)
@@ -170,6 +182,7 @@ class ReportesController extends Controller
         ->join('eventos as c','c.id','a.id_evento')
         ->join('clientes as d','d.id','a.id_cliente')
         ->whereMonth('a.created_at','=',$request->mes)
+        ->where('a.id_evento','=',$request->evento)
         ->get();
 
 
@@ -177,11 +190,15 @@ class ReportesController extends Controller
          $total = DB::table('asistencias as a')
         ->select(DB::raw('COUNT(a.id) as total'))
         ->whereMonth('a.created_at','=',$request->mes)
+      ->where('id_evento','=',$request->evento)
         ->first();
 
+             $eventos =Eventos::whereBetween('fecha', [date("Y-m-d"), date("Y")."-12-31"])
+                        ->pluck('nombre','id');
 
 
-        return view('reportes.asistentes',compact('asistentes','total','mes'));
+
+        return view('reportes.asistentes',compact('asistentes','total','mes','eventos'));
     }
 
 

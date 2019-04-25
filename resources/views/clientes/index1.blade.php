@@ -114,10 +114,10 @@
                                 
                                     <a href="{{ route('admin.clientes.edit',[$ctr->id]) }}" class="btn btn-xs btn-info">@lang('global.app_edit')</a>
                                     @if(is_null($ctr->llamado))
-                                        <a href="/clientes-llamar-{{$ctr->id}}" class="btn btn-xs btn-info">@lang('global.app_called')</a>
+                                        <a href="/clientes-llamar-{{$ctr->id}}" class="btn btn-xs btn-primary">@lang('global.app_called')</a>
                                     @endif
                                     @if($ctr->llamado == 'SI' && $ctr->estatus <> 'Asiste' && $ctr->estatus != 'Confirmado')
-                                        <a href="/clientes-rellamar-{{$ctr->id}}" class="btn btn-xs btn-info">@lang('global.app_redial')</a>
+                                        <a href="/clientes-rellamar-{{$ctr->id}}" class="btn btn-xs btn-default">@lang('global.app_redial')</a>
                                     @endif
 
                                     @if($ctr->respuesta == 'Asiste')
@@ -135,7 +135,7 @@
                                         'method' => 'DELETE',
                                         'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
                                         'route' => ['admin.asistencia.destroy', $ctr->id])) !!}
-                                    {!! Form::submit(trans('Asistirà'), array('class' => 'btn btn-xs btn-danger')) !!}
+                                    {!! Form::submit(trans('Asistirà'), array('class' => 'btn btn-xs btn-success')) !!}
                                     {!! Form::close() !!}
                                      @endif
 
@@ -144,7 +144,7 @@
                                         'method' => 'DELETE',
                                         'onsubmit' => "return confirm('".trans("global.app_are_you_sure")."');",
                                         'route' => ['admin.clientes.destroy', $ctr->id])) !!}
-                                    {!! Form::submit(trans('global.app_delete'), array('class' => 'btn btn-xs btn-danger')) !!}
+                                    {!! Form::submit(trans('global.app_delete'), array('class' => 'btn btn-xs btn-warning')) !!}
                                     {!! Form::close() !!}
                                 </td>
 
