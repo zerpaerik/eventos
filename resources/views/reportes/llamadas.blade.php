@@ -28,7 +28,7 @@
 			          </div>
         </div>
 
-        
+
          <div class="col-md-3">
              {!! Form::label('evento', 'Eventos*', ['class' => 'control-label']) !!}
                     {!! Form::select('evento', $eventos, old('eventos'), ['class' => 'form-control select2']) !!}
@@ -64,6 +64,7 @@
                         <th>Evento</th>
                         <th>Fecha</th>
                         <th>Respuesta</th>
+                        <th>Observaciòn</th>
                         <th>Registrado Por:</th>
 
                     </tr>
@@ -79,6 +80,7 @@
                                 <td>{{ $ctr->evento }}</td>
                                 <td>{{ $ctr->created_at }}</td>
                                 <td>{{ $ctr->respuesta }}</td>
+                                <td>{{ $ctr->observacion }}</td>
                                 <td>{{ $ctr->name }}</td>
 
                                
