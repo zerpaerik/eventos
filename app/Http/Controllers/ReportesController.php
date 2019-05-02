@@ -73,7 +73,8 @@ class ReportesController extends Controller
 
 
 
-         $eventos =Eventos::all();
+     $eventos =Eventos::all()->pluck('nombre','id');
+
 
 
 
