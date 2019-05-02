@@ -73,8 +73,7 @@ class ReportesController extends Controller
 
 
 
-         $eventos =Eventos::whereBetween('fecha', [date("Y-m-d"), date("Y")."-12-31"])
-                        ->pluck('nombre','id');
+         $eventos =Eventos::all();
 
 
 
