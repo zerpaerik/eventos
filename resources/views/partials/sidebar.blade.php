@@ -439,6 +439,19 @@
                
                 </ul>
 
+                <ul class="treeview-menu">
+
+                    <li class="{{ $request->segment(2) == 'eventos' ? 'active active-sub' : '' }}">
+                        <a href="{{ route('admin.eventos.index') }}">
+                            <i class="fa fa-briefcase"></i>
+                            <span class="title">
+                                Eventos
+                            </span>
+                        </a>
+                    </li>
+               
+                </ul>
+
             </li>
 
 
